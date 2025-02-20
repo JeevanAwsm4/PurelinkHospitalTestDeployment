@@ -9,7 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 export default function Home() {
   return (
     <div>
-      <div className="flex flex-row  gap-4 flex-wrap max-[723px]:justify-center">
+      <div className="flex w-full flex-row  gap-4 flex-wrap max-[723px]:justify-center">
         {homeCards.map((card, index) => (
           <article
             className={`relative w-[22.125rem]  rounded-[1rem] bg-white  
@@ -59,7 +59,7 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
           </article>
         ))}
       </div>
-      <div className="mt-8 max-w-[1094px]">
+      <div className="mt-8 w-full">
         <div className="flex justify-between items-center">
           <div className="text-[1.25rem] font-medium leading-[1.875rem] tracking-[0]">
             Provision Blood donation slot
