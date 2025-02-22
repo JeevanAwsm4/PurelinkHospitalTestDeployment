@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <body className="">
+      <body className="bg-[#F8FAFC]">
         <Main />
         <NextScript />
       </body>
