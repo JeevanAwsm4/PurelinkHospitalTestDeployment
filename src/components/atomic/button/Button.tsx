@@ -3,7 +3,7 @@ interface Props  {
   onClick : () => void;
   disabled : boolean;
   children : React.ReactNode;
-  className :string
+  className ?:string
 }
 const Button = ({ children, disabled, onClick, className }: Props) => {
   const bg = !disabled ? "bg-[#7464F0]" : "bg-gray-300";
