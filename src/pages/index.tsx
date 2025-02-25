@@ -61,16 +61,19 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
       </div>
       <div className="mt-8 w-full">
         <div className="flex justify-between items-center">
-          <div className="text-[1.25rem] font-medium leading-[1.875rem] tracking-[0]">
+          <div className="text-[1.25rem] font-medium leading-[1.875rem] tracking-[0] max-md:text-base">
             Provision Blood donation slot
           </div>
           <div>
             <Button
               disabled={false}
               onClick={() => {}}
-              className="text-[0.875rem] font-semibold leading-[1.25rem] tracking-[0]"
+              className="text-[0.875rem] font-semibold leading-[1.25rem] tracking-[0] max-md:text-sm max-md:px-3"
             >
+              <div className="max-md:hidden inline-block">
+
               <AddIcon />
+              </div>
               New request
             </Button>
           </div>

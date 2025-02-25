@@ -42,8 +42,10 @@ const TopBar = () => {
       <div className="">
         <div className="flex items-center justify-between flex-wrap bg-gray-50 sticky w-full h-full top-0 right-0 z-[1000]">
           <div className="text-start">
-            <div className="text-xs text-gray-400">{currentDate}</div>
-            <div className="text-lg font-semibold text-gray-950">
+            <div className="text-xs text-gray-400 font-medium text-[1rem] leading-5 tracking-normal">
+              {currentDate}
+            </div>
+            <div className="text-lg  text-gray-950 text-center font-medium text-[1.5rem] leading-8 tracking-normal">
               Welcome to dashboard
             </div>
           </div>

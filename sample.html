@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scrollable Table</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="p-5 font-sans">
+    <div class="overflow-x-auto w-full">
+      <table
+        class="min-w-[600px] w-full border-collapse border border-gray-300"
+      >
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="border border-gray-300 p-2 text-left">Column 1</th>
+            <th class="border border-gray-300 p-2 text-left">Column 2</th>
+            <th class="border border-gray-300 p-2 text-left">Column 3</th>
+            <th class="border border-gray-300 p-2 text-left">Column 4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd:bg-white even:bg-gray-100">
+            <td class="border border-gray-300 p-2">Row 1 Data 1</td>
+            <td class="border border-gray-300 p-2">Row 1 Data 2</td>
+            <td class="border border-gray-300 p-2">Row 1 Data 3</td>
+            <td class="border border-gray-300 p-2">Row 1 Data 4</td>
+          </tr>
+          <tr class="odd:bg-white even:bg-gray-100">
+            <td class="border border-gray-300 p-2">Row 2 Data 1</td>
+            <td class="border border-gray-300 p-2">Row 2 Data 2</td>
+            <td class="border border-gray-300 p-2">Row 2 Data 3</td>
+            <td class="border border-gray-300 p-2">Row 2 Data 4</td>
+          </tr>
+          <tr class="odd:bg-white even:bg-gray-100">
+            <td class="border border-gray-300 p-2">Row 3 Data 1</td>
+            <td class="border border-gray-300 p-2">Row 3 Data 2</td>
+            <td class="border border-gray-300 p-2">Row 3 Data 3</td>
+            <td class="border border-gray-300 p-2">Row 3 Data 4</td>
+          </tr>
+          <tr class="odd:bg-white even:bg-gray-100">
+            <td class="border border-gray-300 p-2">Row 4 Data 1</td>
+            <td class="border border-gray-300 p-2">Row 4 Data 2</td>
+            <td class="border border-gray-300 p-2">Row 4 Data 3</td>
+            <td class="border border-gray-300 p-2">Row 4 Data 4</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
