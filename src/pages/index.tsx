@@ -21,7 +21,7 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
           >
             <div className="flex flex-row justify-between ">
               <div className="flex gap-4">
-                <Image src={card.icon} alt="Icon" />
+                <Image src={card.icon} alt="Icon" width={24} height={24}/>
                 <h4 className="text-[1.25rem] font-medium leading-[1.875rem] tracking-[0]">
                   {card.heading}
                 </h4>

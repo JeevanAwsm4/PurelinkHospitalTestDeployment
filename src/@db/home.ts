@@ -1,12 +1,9 @@
-import CardIcon1 from "@/assets/svg/statistic_card1.svg";
-import CardIcon2 from "@/assets/svg/statistic_card2.svg";
-import CardIcon3 from "@/assets/svg/statistic_card3.svg";
-import CardBg1 from "@/assets/images/statistic-card-bg1.png";
-import CardBg2 from "@/assets/images/statistic-card-bg2.png";
+
+
 
 export const homeCards = [
   {
-    icon: CardIcon1,
+    icon: "/svg/statistic_card1.svg",
     heading: "Request This Month",
     arrowDirection: "top",
     theme: "primary",
@@ -14,10 +11,9 @@ export const homeCards = [
     highlight: "12 requests",
     description: "More than last month",
     highlight_type: "positive",
-    bg: CardBg2,
   },
   {
-    icon: CardIcon2,
+    icon: "/svg/statistic_card2.svg",
     heading: "Donors in city",
     arrowDirection: "bottom",
     theme: "primary",
@@ -25,10 +21,9 @@ export const homeCards = [
     highlight: "12 requests",
     description: "More than last month",
     highlight_type: "negative",
-    bg: CardBg1,
   },
   {
-    icon: CardIcon3,
+    icon: "/svg/statistic_card3.svg",
     heading: "Total request in city",
     arrowDirection: "bottom",
     theme: "primary",
@@ -36,7 +31,6 @@ export const homeCards = [
     highlight: "12 requests",
     description: "More than last month",
     highlight_type: "positive",
-    bg:CardBg2
   },
 ];
 
