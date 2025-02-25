@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { User } from "../../../interfaces/interface";
 
@@ -28,6 +28,17 @@ const TopBar = () => {
     address: "258 Quigley Parkways, Elisabethland, Trinidad and Tobago 55212",
   });
 
+  useEffect(()=>{
+   setUserProfile({
+     avatar: "/images/profile.png",
+     id: 1234567,
+     name: "Damien Smith",
+     bloodGroup: "AB+",
+     phoneNumber: "9876543212",
+     district: "Ernakulam",
+     address: "258 Quigley Parkways, Elisabethland, Trinidad and Tobago 55212",
+   });
+  },[])
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
