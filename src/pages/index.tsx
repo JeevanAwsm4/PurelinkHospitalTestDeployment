@@ -3,7 +3,6 @@ import Image from "next/image";
 import React from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import "@/styles/globals.css";
 import Button from "@/components/atomic/button/Button";
 import AddIcon from "@mui/icons-material/Add";
 export default function Home() {
