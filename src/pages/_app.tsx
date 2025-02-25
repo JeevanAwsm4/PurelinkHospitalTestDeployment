@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
-  const isNeeded = !["/signup", "/signin","/contacts"].includes(pathname)
+  const isNeeded = !["/signup", "/signin"].includes(pathname)
   return (
     <>
       <div className="flex flex-row">
