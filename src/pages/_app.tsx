@@ -1,5 +1,6 @@
 import Navbar from "@/components/organisms/navbar/Navbar";
 import TopBar from "@/components/organisms/topbar/Topbar";
+import "@/styles/global.css"
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 

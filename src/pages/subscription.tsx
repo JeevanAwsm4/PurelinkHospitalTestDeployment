@@ -1,6 +1,5 @@
 import { subscriptionData } from "@/@db/subscription";
 import React from "react";
-import TickIcon from "@/assets/svg/tickIcon.svg";
 import Button from "@/components/atomic/button/Button";
 import Image from "next/image";
 
@@ -43,7 +42,7 @@ const Subscription = () => {
                 {data.features.map((feature, index) => (
                   <li key={index} className="flex items-center gap-2">
                     <Image
-                      src={TickIcon}
+                      src={"/svg/tickIcon.svg"}
                       alt="Tick Icon"
                       width={20}
                       height={20}
