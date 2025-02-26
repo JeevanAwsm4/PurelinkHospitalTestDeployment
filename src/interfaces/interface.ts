@@ -28,3 +28,22 @@ export interface TakeABreakDetails {
     toDate: Date | null;
     reason: string;
 }
+
+export interface DonorRequest {
+  id: number;
+  serialNumber: number;
+  fullName: string;
+  phoneNumber: string;
+  requestedDate: string;
+  requestedDonors: number;
+  acceptedDonors: number;
+  bloodGroup: string;
+}
+
+export interface ExpiredRequest {
+  id: number;
+  requestedDate: string;
+  status: string;
+  requestedDonors: number;
+  acceptedDonors: number;
+}

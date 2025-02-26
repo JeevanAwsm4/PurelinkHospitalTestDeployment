@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import {
   FiLogOut,
   FiEdit,
@@ -31,6 +31,9 @@ const Navbar: React.FC = () => {
     "profile" | "Profile" | "donationHistory" | "takeABreak"
   >("profile");
 
+  useEffect(() => {
+    setIsOpen(false);
+  }, [router.pathname]);
   const [currentDate] = useState<string>(() => {
     const now = new Date();
     return now.toLocaleDateString("en-US", {
@@ -153,7 +156,12 @@ const Navbar: React.FC = () => {
             </ul>
           </div>
           <div className="flex flex-col">
-            <button className="flex py-3 px-6 items-center text-sm ml-3 gap-5 text-center text-gray-950 rounded-md transition-all duration-300 hover:bg-indigo-50 hover:text-gray-950">
+            <button
+              className="flex py-3 px-6 items-center text-sm ml-3 gap-5 text-center text-gray-950 rounded-md transition-all duration-300 hover:bg-indigo-50 hover:text-gray-950 "
+              onClick={() => {
+                router.push("/signin");
+              }}
+            >
               <FiLogOut />
               <span>Logout</span>
             </button>
@@ -266,7 +274,10 @@ const Navbar: React.FC = () => {
                 <span>Settings</span>
               </Link>{" "}
               <br />
-              <button className="text-sm hover:text-indigo-500 transition-colors mt-2">
+              <button
+                onClick={() => router.push("/signin")}
+                className="text-sm hover:text-indigo-500 transition-colors mt-2"
+              >
                 <span>Logout</span>
               </button>
             </div>

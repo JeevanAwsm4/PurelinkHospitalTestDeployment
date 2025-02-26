@@ -20,11 +20,11 @@ const Subscription = () => {
         <div className="text-base md:text-[1.125rem] font-medium leading-[1.5rem] md:leading-[1.25rem] text-left">
           Your Subscription ends on Dec 25, 2024
         </div>
-        <div className="flex flex-col md:flex-row flex-wrap gap-8 md:gap-16 items-center">
+        <div className="flex flex-col md:flex-row flex-wrap gap-8 md:gap-14 items-center">
           {subscriptionData.map((data) => (
             <article
               key={data.id}
-              className="w-full md:w-[21.5rem] h-auto md:h-[26.5rem] rounded-tl-[1rem] border-t border-[#E3E8EF] bg-white  
+              className="w-full md:w-[20rem] h-auto md:h-[26.5rem] rounded-tl-[1rem] border-t border-[#E3E8EF] bg-white  
               shadow-[0_4px_6px_-2px_rgba(16,24,40,0.03),0_12px_16px_-4px_rgba(16,24,40,0.08)]
               text-center p-6 md:p-8"
             >

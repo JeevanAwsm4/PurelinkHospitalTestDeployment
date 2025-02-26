@@ -2,6 +2,7 @@
 
 import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { FaFacebook } from "react-icons/fa";
 
@@ -19,7 +20,6 @@ export default function Login() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!phone.match(/^\d{10}$/)) {
@@ -120,9 +120,9 @@ export default function Login() {
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Don’t have an account?{" "}
-            <a href="#" className="text-purple-600 font-semibold">
+            <Link href="/signup" className="text-purple-600 font-semibold">
               Sign up
-            </a>
+            </Link>
           </p>
 
           <div className="relative flex py-4 items-center">
