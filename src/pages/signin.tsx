@@ -4,7 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook,FaGoogle } from "react-icons/fa";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -136,13 +136,7 @@ export default function Login() {
               className="w-full flex items-center justify-center border p-3 rounded-md mb-2 bg-white shadow-md hover:bg-gray-100 transition duration-300"
               aria-label="Sign in with Google"
             >
-              <Image
-                src="/images/signin/google-icon.png"
-                alt="Google Logo"
-                width={24}
-                height={24}
-                className="mr-3"
-              />
+              <FaGoogle className="mr-3 text-blue-600" size={24} />
               <span className="font-medium text-gray-700">
                 Sign in with Google
               </span>
