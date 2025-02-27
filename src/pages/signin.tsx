@@ -162,13 +162,13 @@ export default function Login() {
       </div>
 
       {/* Right Side */}
-      <div className="hidden md:flex md:w-1/2 bg-purple-600 items-center justify-center relative overflow-hidden rounded-3xl min-h-[700px]">
+      <div className="hidden md:flex md:w-1/2 bg-purple-600 items-center justify-center relative overflow-hidden rounded-3xl min-h-[43.75rem]">
         <Image
           src="/images/signin/image.png"
           alt="Blood Donation"
           layout="fill"
           objectFit="cover"
-          className="absolute inset-0 w-full h-full min-h-[700px]"
+          className="absolute inset-0 w-full h-full min-h-[43.75rem]"
         />
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-600 to-transparent p-8 md:p-16 rounded-r-lg">
           <p className="text-white text-xl md:text-4xl font-semibold">
