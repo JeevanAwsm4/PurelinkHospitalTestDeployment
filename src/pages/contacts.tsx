@@ -24,7 +24,7 @@ export default function ContactPage() {
       {showAllContacts ? (
         <AllContacts setShowAllContacts={setShowAllContacts} />
       ) : (
-        <section className="bg-gray-50 w-full h-full p-6 max-md:p-0">
+        <section className="bg-gray-50 w-full h-full max-md:p-0">
           {/* Contact Donors Section */}
           <div className="bg-gray-100 rounded-lg p-4 max-md:p-2 shadow-sm">
             <div className="flex items-center justify-between mb-4">

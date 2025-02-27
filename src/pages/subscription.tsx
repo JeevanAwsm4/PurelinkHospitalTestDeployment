@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const Subscription = () => {
   return (
-    <div className="p-4 md:p-8 flex flex-col gap-6 md:gap-8">
+    <div className="p-4 md:p-0 flex flex-col gap-6 md:gap-8">
       {/* Heading */}
       <div>
         <h4 className="text-lg md:text-[1.25rem] font-medium leading-[1.5rem] md:leading-[1.875rem] text-left">
