@@ -3,7 +3,15 @@
 
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+  reactStrictMode: true,
+};
+export default nextConfig;
+const a = `const nextConfig = {
   transpilePackages: ["@amcharts/amcharts4"],
   experimental: {
     esmExternals: "loose",
@@ -11,12 +19,4 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-
-export default nextConfig;
-const a = `import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-  reactStrictMode: true,
-};
 `;

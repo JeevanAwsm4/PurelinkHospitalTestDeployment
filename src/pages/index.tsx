@@ -1,3 +1,4 @@
+"use client"
 import { homeCards, requestData } from "@/@db/home";
 import Image from "next/image";
 import React from "react";
@@ -5,7 +6,9 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Button from "@/components/atomic/button/Button";
 import AddIcon from "@mui/icons-material/Add";
+import { useRouter } from "next/router";
 export default function Home() {
+  const router = useRouter()
   return (
     <div>
       <div className="flex w-full flex-row  gap-4 flex-wrap max-[723px]:justify-center">
@@ -66,7 +69,7 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
           <div>
             <Button
               disabled={false}
-              onClick={() => {}}
+              onClick={() => {router.push('/requests')}}
               className="text-[0.875rem] font-semibold leading-[1.25rem] tracking-[0] max-md:text-sm max-md:px-3"
             >
               <div className="max-md:hidden inline-block">
