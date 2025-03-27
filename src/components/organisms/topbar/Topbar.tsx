@@ -4,11 +4,12 @@ import { User } from "../../../interfaces/interface";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Image from "next/image";
+import { useUser } from "@/context/UserContext";
 
 const TopBar = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-
+  const { isLogged } = useUser();
   const [currentDate] = useState<string>(() => {
     const now = new Date();
     return now.toLocaleDateString("en-US", {
@@ -28,17 +29,17 @@ const TopBar = () => {
     address: "258 Quigley Parkways, Elisabethland, Trinidad and Tobago 55212",
   });
 
-  useEffect(()=>{
-   setUserProfile({
-     avatar: "/images/profile.png",
-     id: 1234567,
-     name: "Damien Smith",
-     bloodGroup: "AB+",
-     phoneNumber: "9876543212",
-     district: "Ernakulam",
-     address: "258 Quigley Parkways, Elisabethland, Trinidad and Tobago 55212",
-   });
-  },[])
+  useEffect(() => {
+    setUserProfile({
+      avatar: "/images/profile.png",
+      id: 1234567,
+      name: "Damien Smith",
+      bloodGroup: "AB+",
+      phoneNumber: "9876543212",
+      district: "Ernakulam",
+      address: "258 Quigley Parkways, Elisabethland, Trinidad and Tobago 55212",
+    });
+  }, []);
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -47,6 +48,9 @@ const TopBar = () => {
     event.preventDefault();
     console.log(`Search Query Submitted: ${searchQuery}`);
   };
+  if (!isLogged) {
+    return <></>;
+  }
 
   return (
     <div className="lg:block hidden">

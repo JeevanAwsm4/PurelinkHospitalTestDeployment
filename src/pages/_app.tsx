@@ -1,5 +1,6 @@
 import Navbar from "@/components/organisms/navbar/Navbar";
 import TopBar from "@/components/organisms/topbar/Topbar";
+import { UserProvider } from "@/context/UserContext";
 import "@/styles/global.css"
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
@@ -9,6 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const isNeeded = !["/signup", "/signin"].includes(pathname);
   return (
     <>
+    <UserProvider>
       <div className="">
         <div className="inline-block">{isNeeded && <Navbar />}</div>
         <div className={`${isNeeded ? "lg:pl-52" : ""} max-lg:pl-0 `}>
@@ -18,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
           </div>
         </div>
       </div>
+    </UserProvider>
     </>
   );
 }

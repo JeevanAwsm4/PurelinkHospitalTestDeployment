@@ -1,12 +1,13 @@
-export const BASE_URL = "https://api.purelink.in/api/v1";
+export const BASE_URL = "http://127.0.0.1:8000/api/v1";
 
 export const API_ENDPOINTS = {
-  LOGIN: `${BASE_URL}/auth/login`,
-  REGISTER: `${BASE_URL}/auth/register`,
-  LOGOUT: `${BASE_URL}/auth/logout`,
-  GET_USER: `${BASE_URL}/auth/user`,
-  GET_LINKS: `${BASE_URL}/links`,
-  CREATE_LINK: `${BASE_URL}/links`,
-  DELETE_LINK: `${BASE_URL}/links`,
-  UPDATE_LINK: `${BASE_URL}/links`,
+  LOGIN: `${BASE_URL}/auth/token/`,
+  HOSPITAL_REGISTER: `${BASE_URL}/panel/signup/`,
+  HOME_DATA: `${BASE_URL}/panel/home_data/`,
+  USER_VERIFY: `${BASE_URL}/auth/token/refresh/`,
+  HOSPITAL_REQUEST: `${BASE_URL}/panel/create_request/`,
+  CONTACT: `${BASE_URL}/panel/contact/`,
+  CITY_COMPOSITION: `${BASE_URL}/panel/city_composition_data/`,
+  REPORT_DATA: `${BASE_URL}/panel/report_data/`,
+  SUBSCRIPTION: `${BASE_URL}/panel/subscriptions/`,
 };

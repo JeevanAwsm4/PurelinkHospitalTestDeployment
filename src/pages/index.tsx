@@ -1,14 +1,86 @@
-"use client"
-import { homeCards, requestData } from "@/@db/home";
+"use client";
+import { requestData } from "@/@db/home";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Button from "@/components/atomic/button/Button";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
+import useApi from "@/hooks/useApi";
+import { API_ENDPOINTS } from "@/config/apiConfig";
+import { useUser } from "@/context/UserContext";
+import { IHomeData, IRequestData } from "@/interfaces/apiType";
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
+  const [data, setData] = useState<IHomeData>({
+    receivers: -1,
+    your_request: -1,
+    active_donors: -1,
+    recent_requests: [],
+  });
+  const { request } = useApi();
+  const { userData,isLogged } = useUser();
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await request({
+        API_ENDPOINT: API_ENDPOINTS.HOME_DATA,
+        method: "GET",
+        token: userData?.accessToken,
+      });
+      if (response.ok) {
+        const refinedData = response.data.recent_requests.map(
+          (data: IRequestData) => {
+            const date = new Date(data.datetime).toLocaleDateString();
+            const currentTime = new Date();
+            const timeDifference =
+              currentTime.getTime() - new Date(data.datetime).getTime();
+            const status =
+              timeDifference > 24 * 60 * 60 * 1000 ? "completed" : "pending";
+            return { ...data, datetime: date, status };
+          }
+        );
+        setData({ ...response.data, recent_requests: refinedData });
+      }
+    };
+    fetchData();
+  }, []);
+
+  const homeCards = [
+    {
+      icon: "/svg/statistic_card1.svg",
+      heading: "Request This Month",
+      arrowDirection: "top",
+      theme: "primary",
+      count: data.receivers,
+      highlight: "12 requests",
+      description: "More than last month",
+      highlight_type: "positive",
+    },
+    {
+      icon: "/svg/statistic_card2.svg",
+      heading: "Donors in city",
+      arrowDirection: "bottom",
+      theme: "primary",
+      count: data.active_donors,
+      highlight: "12 requests",
+      description: "More than last month",
+      highlight_type: "negative",
+    },
+    {
+      icon: "/svg/statistic_card3.svg",
+      heading: "Total request in city",
+      arrowDirection: "bottom",
+      theme: "primary",
+      count: data.your_request,
+      highlight: "12 requests",
+      description: "More than last month",
+      highlight_type: "positive",
+    },
+  ];
+  if(!isLogged){
+    return <></>
+  }
   return (
     <div>
       <div className="flex w-full flex-row  gap-4 flex-wrap max-[723px]:justify-center">
@@ -24,7 +96,7 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
           >
             <div className="flex flex-row justify-between ">
               <div className="flex gap-4">
-                <Image src={card.icon} alt="Icon" width={24} height={24}/>
+                <Image src={card.icon} alt="Icon" width={24} height={24} />
                 <h4 className="text-[1.25rem] font-medium leading-[1.875rem] tracking-[0]">
                   {card.heading}
                 </h4>
@@ -69,12 +141,13 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
           <div>
             <Button
               disabled={false}
-              onClick={() => {router.push('/requests')}}
+              onClick={() => {
+                router.push("/requests");
+              }}
               className="text-[0.875rem] font-semibold leading-[1.25rem] tracking-[0] max-md:text-sm max-md:px-3"
             >
               <div className="max-md:hidden inline-block">
-
-              <AddIcon />
+                <AddIcon />
               </div>
               New request
             </Button>
@@ -98,10 +171,10 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
                   Donor Count
                 </th>
                 <th className="p-4 border border-gray-200 min-w-[180px]">
-                  Status
+                  Wanted Count
                 </th>
                 <th className="p-4 border border-gray-200 min-w-[180px]">
-                  Slot Duration
+                  Status
                 </th>
                 <th className="p-4 border border-gray-200 min-w-[180px]">
                   Date
@@ -109,16 +182,19 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
               </tr>
             </thead>
             <tbody>
-              {requestData.map((data, index) => (
+              {data.recent_requests.map((data, index) => (
                 <tr key={index} className="text-left">
                   <td className="p-4 border border-gray-200 min-w-[180px]">
-                    {data.request_id}
+                    {"12345"}
                   </td>
                   <td className="p-4 border border-gray-200 min-w-[180px]">
-                    {data.blood_type}
+                    {data.blood_group}
                   </td>
                   <td className="p-4 border border-gray-200 min-w-[180px]">
-                    {data.donor_count}
+                    {data.donors_count}
+                  </td>
+                  <td className="p-4 border border-gray-200 min-w-[180px]">
+                    {data.wanted_count}
                   </td>
                   <td className="p-4 border border-gray-200 capitalize min-w-[180px] flex ">
                     {data.status === "pending" ? (
@@ -130,10 +206,7 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
                     )}
                   </td>
                   <td className="p-4 border border-gray-200 min-w-[180px]">
-                    {data.slot_duration}
-                  </td>
-                  <td className="p-4 border border-gray-200 min-w-[180px]">
-                    {data.date}
+                    {data.datetime}
                   </td>
                 </tr>
               ))}

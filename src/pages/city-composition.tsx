@@ -1,11 +1,42 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import useApi from "@/hooks/useApi";
+import { useUser } from "@/context/UserContext";
+import { ICityComposition, IContacts } from "@/interfaces/apiType";
+import { API_ENDPOINTS } from "@/config/apiConfig";
 
 export default function CityComposition() {
+  const [data, setData] = useState<ICityComposition>({
+    "A+": 0,
+    "A-": 0,
+    "AB+": 0,
+    "AB-": 0,
+    "B+": 0,
+    "B-": 0,
+    "O+": 0,
+    "O-": 0,
+  });
+  const { request } = useApi();
+  const { userData,isLogged } = useUser();
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await request({
+        API_ENDPOINT: API_ENDPOINTS.CITY_COMPOSITION,
+        method: "GET",
+        token: userData?.accessToken,
+      });
+      console.log(response);
+      if (response.ok) {
+        setData(response.data);
+      }
+    };
+    fetchData();
+  }, []);
   useEffect(() => {
     am4core.useTheme(am4themes_animated);
 
@@ -18,14 +49,14 @@ export default function CityComposition() {
     chart.responsive.useDefault = false; // Custom responsiveness
 
     chart.data = [
-      { type: "A+", value: 10, color: am4core.color("#FFE0E6") },
-      { type: "A-", value: 13, color: am4core.color("#FFECD8") },
-      { type: "B+", value: 17, color: am4core.color("#B8DEF9") },
-      { type: "B-", value: 28, color: am4core.color("#ECCBD3") },
-      { type: "O+", value: 43, color: am4core.color("#DDF2F3") },
-      { type: "O-", value: 43, color: am4core.color("#EADFFF") },
-      { type: "AB+", value: 88, color: am4core.color("#E1F0FF") },
-      { type: "AB-", value: 17, color: am4core.color("#FFF4DB") },
+      { type: "A+", value: data["A+"], color: am4core.color("#FFE0E6") },
+      { type: "A-", value: data["A-"], color: am4core.color("#FFECD8") },
+      { type: "AB+", value: data["AB+"], color: am4core.color("#B8DEF9") },
+      { type: "AB-", value: data["AB-"], color: am4core.color("#B8DEF9") },
+      { type: "B+", value: data["B+"], color: am4core.color("#B8DEF9") },
+      { type: "B-", value: data["B-"], color: am4core.color("#ECCBD3") },
+      { type: "O+", value: data["O+"], color: am4core.color("#DDF2F3") },
+      { type: "O-", value: data["O-"], color: am4core.color("#EADFFF") },
     ];
 
     const series = chart.series.push(new am4charts.PieSeries3D());
@@ -50,8 +81,10 @@ export default function CityComposition() {
       chart.dispose();
       window.removeEventListener("resize", updateLabelSize);
     };
-  }, []);
-
+  }, [data]);
+  if (!isLogged) {
+    return <></>;
+  }
   return (
     <div className="flex flex-col gap-6 w-full h-auto">
       <div className="flex flex-col gap-1">
@@ -79,5 +112,4 @@ export default function CityComposition() {
       </div>
     </div>
   );
-};
-
+}

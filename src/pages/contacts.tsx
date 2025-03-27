@@ -4,11 +4,20 @@ import { ArrowRight } from "lucide-react";
 
 import { donorRequests, expiredRequests } from "@/@db/contacts/sampleRequests";
 import AllContacts from "@/components/atomic/allContacts/AllContacts";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { IContacts, IHomeData, IRequestData } from "@/interfaces/apiType";
+import useApi from "@/hooks/useApi";
+import { useUser } from "@/context/UserContext";
+import { API_ENDPOINTS } from "@/config/apiConfig";
 
 export default function ContactPage() {
   const [showAllContacts, setShowAllContacts] = useState(false);
-
+  const [data, setData] = useState<IContacts>({
+    current_data: [],
+    other_data: [],
+  });
+  const { request } = useApi();
+  const { userData,isLogged } = useUser();
   useEffect(() => {
     const storedValue = localStorage.getItem("showAllContacts");
     if (storedValue !== null) {
@@ -19,10 +28,27 @@ export default function ContactPage() {
   useEffect(() => {
     localStorage.setItem("showAllContacts", JSON.stringify(showAllContacts));
   }, [showAllContacts]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await request({
+        API_ENDPOINT: API_ENDPOINTS.CONTACT,
+        method: "GET",
+        token: userData?.accessToken,
+      });
+      if (response.ok) {
+        setData(response.data);
+      }
+    };
+    fetchData();
+  }, []);
+  if (!isLogged) {
+    return <></>;
+  }
   return (
     <>
       {showAllContacts ? (
-        <AllContacts setShowAllContacts={setShowAllContacts} />
+        <AllContacts data={data} setShowAllContacts={setShowAllContacts} />
       ) : (
         <section className="bg-gray-50 w-full h-full max-md:p-0">
           {/* Contact Donors Section */}
@@ -64,15 +90,15 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                {donorRequests.map((request, index) => (
+                {data.current_data.map((request, index) => (
                   <div
                     key={index}
                     className="grid grid-cols-4 gap-4 text-xs font-medium shadow-sm p-3 text-gray-500 max-md:p-2"
                   >
-                    <div>#{request.id}</div>
-                    <div>{request.requestedDate}</div>
-                    <div>{request.requestedDonors}</div>
-                    <div>{request.acceptedDonors}</div>
+                    <div>#{"12345"}</div>
+                    <div>{new Date(request.datetime).toLocaleDateString()}</div>
+                    <div>{request.wanted_count}</div>
+                    <div>{request.donor?.length}</div>
                   </div>
                 ))}
               </div>
@@ -94,7 +120,7 @@ export default function ContactPage() {
               Expired Requests
             </h3>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))]  gap-x-4 gap-y-4 mt-4 w-full h-full">
-              {expiredRequests.map((request, index) => (
+              {data.other_data.map((request, index) => (
                 <div
                   key={index}
                   className="flex items-center flex-wrap gap-4 justify-between p-3 rounded-lg bg-[#FFFBFA] border border-red-100  w-full"
@@ -102,31 +128,31 @@ export default function ContactPage() {
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
                     Request ID <br />
                     <span className="text-gray-700 inline-block mt-1">
-                      #{request.id}
+                      #{"123454"}
                     </span>
                   </p>
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
                     Requested Date <br />
                     <span className="text-gray-700 inline-block mt-1">
-                      {request.requestedDate}
+                      {new Date(request.datetime).toLocaleDateString()}
                     </span>
                   </p>
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
                     Status <br />
                     <span className="bg-yellow-50 py-0.5 px-2 border border-yellow-300 rounded-2xl text-red-700 inline-block ">
-                      {request.status}
+                      {"pending"}
                     </span>
                   </p>
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
                     No of requested donors <br />
                     <span className="text-gray-700 max-md:text-xs inline-block mt-1">
-                      {request.requestedDonors}
+                      {request.donors}
                     </span>
                   </p>
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
                     No of accepted donors <br />
                     <span className="text-gray-700 max-md:text-xs">
-                      {request.acceptedDonors}
+                      {request.wanted_count}
                     </span>
                   </p>
                 </div>

@@ -13,12 +13,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { menuItems } from "@/lib/menu/menuItems";
 import Link from "next/link";
+import { useUser } from "@/context/UserContext";
 
 const Navbar: React.FC = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
- 
+ const {logout,isLogged} = useUser()
 
   useEffect(() => {
     setIsOpen(false);
@@ -33,7 +34,9 @@ const Navbar: React.FC = () => {
   });
 
  
-
+  if(!isLogged){
+    return <></>
+  }
   return (
     <>
       <div className="lg:block hidden fixed left-0 top-0 bottom-0 z-50">
@@ -76,8 +79,8 @@ const Navbar: React.FC = () => {
           <div className="flex flex-col">
             <button
               className="flex py-3 px-6 items-center text-sm ml-3 gap-5 text-center text-gray-950 rounded-md transition-all duration-300 hover:bg-indigo-50 hover:text-gray-950 "
-              onClick={() => {
-                router.push("/signin");
+              onClick={async() => {
+                await logout()
               }}
             >
               <FiLogOut />
@@ -193,7 +196,7 @@ const Navbar: React.FC = () => {
               </Link>{" "}
               <br />
               <button
-                onClick={() => router.push("/signin")}
+                onClick={async() => await logout()}
                 className="text-sm hover:text-indigo-500 transition-colors mt-2"
               >
                 <span>Logout</span>

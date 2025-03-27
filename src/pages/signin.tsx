@@ -1,10 +1,17 @@
 "use client";
 
+import useApi from "@/hooks/useApi";
 import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FaFacebook } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginInputs, loginSchema } from "@/schemas/authSchema";
+import { API_ENDPOINTS } from "@/config/apiConfig";
+import { useUser } from "@/context/UserContext";
+import Button from "@/components/atomic/button/Button";
+import { useRouter } from "next/router";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,21 +24,36 @@ const geistMono = Geist_Mono({
 });
 
 export default function Login() {
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const { request, isFetching } = useApi();
+  const { login } = useUser();
   const [error, setError] = useState("");
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!phone.match(/^\d{10}$/)) {
-      setError("Enter a valid 10-digit phone number.");
-      return;
-    }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
+  const onSubmit = async (data: loginInputs) => {
     setError("");
-    alert("Login successful!");
+    console.log(data);
+    const request_data = { username: data.phone, password: data.password };
+    const response = await request({
+      API_ENDPOINT: API_ENDPOINTS.LOGIN,
+      method: "POST",
+      data: request_data,
+      redirect: false,
+    });
+    if (!response.ok) {
+      setError(
+        response.data?.message || "Phone number or password is incorrect"
+      );
+      return;
+    } else {
+      login(response.data?.access, response.data.refresh);
+      router.push("/");
+    }
   };
 
   return (
@@ -59,9 +81,9 @@ export default function Login() {
             </h2>
             <p className="text-gray-500 mb-6">Please enter your details</p>
 
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+            <p className="text-red-500 text-sm mb-4">{error}</p>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">
                 <label
                   className="block text-gray-700 font-medium"
@@ -75,11 +97,12 @@ export default function Login() {
                   aria-label="Enter your phone number"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="Enter your Phone Number"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  {...register("phone")}
                 />
+                <p className="text-red-500 text-sm mb-4 mt-2">
+                  {errors.phone?.message}
+                </p>
               </div>
-
               <div className="mb-4">
                 <label
                   className="block text-gray-700 font-medium"
@@ -93,9 +116,11 @@ export default function Login() {
                   aria-label="Enter your password"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="********"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                 />
+                <p className="text-red-500 text-sm mb-4">
+                  {errors.password?.message}
+                </p>
               </div>
 
               <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
@@ -111,12 +136,13 @@ export default function Login() {
                 </a>
               </div>
 
-              <button
+              <Button
                 type="submit"
                 className="w-full bg-purple-600 text-white p-3 rounded-md font-semibold hover:bg-purple-700 transition duration-300"
+                isLoading={isFetching}
               >
                 Sign in
-              </button>
+              </Button>
             </form>
 
             <p className="text-center text-sm text-gray-500 mt-4">
@@ -125,38 +151,6 @@ export default function Login() {
                 Sign up
               </Link>
             </p>
-
-            <div className="relative flex py-4 items-center">
-              <div className="flex-grow border-t border-gray-300"></div>
-              <span className="flex-shrink mx-4 text-gray-500">OR</span>
-              <div className="flex-grow border-t border-gray-300"></div>
-            </div>
-
-            <button
-              className="w-full flex items-center justify-center border p-3 rounded-md mb-2 bg-white shadow-md hover:bg-gray-100 transition duration-300"
-              aria-label="Sign in with Google"
-            >
-              <Image
-                src="/images/signin/google-icon.png"
-                alt="Google Logo"
-                width={24}
-                height={24}
-                className="mr-3"
-              />
-              <span className="font-medium text-gray-700">
-                Sign in with Google
-              </span>
-            </button>
-
-            <button
-              className="w-full flex items-center justify-center border p-3 rounded-md bg-white shadow-md hover:bg-gray-100 transition duration-300"
-              aria-label="Sign in with Facebook"
-            >
-              <FaFacebook className="mr-3 text-blue-600" size={24} />
-              <span className="font-medium text-gray-700">
-                Sign in with Facebook
-              </span>
-            </button>
           </div>
         </div>
       </div>

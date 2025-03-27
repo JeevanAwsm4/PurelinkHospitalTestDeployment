@@ -1,8 +1,16 @@
 "use client";
 
+import Button from "@/components/atomic/button/Button";
+import { API_ENDPOINTS } from "@/config/apiConfig";
+import useApi from "@/hooks/useApi";
+import { registerInputs, registerSchema } from "@/schemas/authSchema";
+import { keralaDistricts } from "@/utils/utils";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,22 +23,37 @@ const geistMono = Geist_Mono({
 });
 
 export default function Login() {
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const { isFetching, request } = useApi();
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!phone.match(/^\d{10}$/)) {
-      setError("Enter a valid 10-digit phone number.");
-      return;
-    }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+  });
+
+  const onSubmit = async (data: registerInputs) => {
     setError("");
-    alert("Login successful!");
+    console.log(data);
+    const request_data = { ...data };
+    const response = await request({
+      API_ENDPOINT: API_ENDPOINTS.HOSPITAL_REGISTER,
+      method: "POST",
+      data: request_data,
+      redirect: false,
+    });
+    console.log(response);
+    if (!response.ok) {
+      setError(
+        response.data?.message || "Phone number or password is incorrect"
+      );
+      return;
+    } else {
+      router.push("/signin");  
+    }
   };
 
   return (
@@ -60,7 +83,7 @@ export default function Login() {
 
             {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">
                 <label
                   className="block text-gray-700 font-medium"
@@ -74,9 +97,11 @@ export default function Login() {
                   aria-label="Enter your user name"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="Enter your user name"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  {...register("username")}
                 />
+                <p className="text-red-500 text-sm mb-2 mt-1">
+                  {errors.username?.message}
+                </p>
               </div>
 
               <div className="mb-4">
@@ -92,9 +117,11 @@ export default function Login() {
                   aria-label="Enter your email"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="Enter your email"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("email")}
                 />
+                <p className="text-red-500 text-sm mb-2 mt-1">
+                  {errors.email?.message}
+                </p>
               </div>
               <div className="mb-4">
                 <label
@@ -109,9 +136,11 @@ export default function Login() {
                   aria-label="Enter a password"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="********"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                 />
+                <p className="text-red-500 text-sm mb-2 mt-1">
+                  {errors.password?.message}
+                </p>
               </div>
               <div className="mb-4">
                 <label
@@ -126,9 +155,11 @@ export default function Login() {
                   aria-label="Add your address"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="Add your address"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("address")}
                 />
+                <p className="text-red-500 text-sm mb-2 mt-1">
+                  {errors.address?.message}
+                </p>
               </div>
 
               <div className="mb-4">
@@ -144,35 +175,46 @@ export default function Login() {
                   aria-label="Enter phone number"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="Enter phone number"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("phone_no")}
                 />
+                <p className="text-red-500 text-sm mb-2 mt-1">
+                  {errors.phone_no?.message}
+                </p>
               </div>
 
               <div className="mb-4">
-                <label
-                  className="block text-gray-700 font-medium"
-                  htmlFor="address"
-                >
-                  District
+                <label className="block">
+                  Select District:
+                  <select
+                    {...register("district")}
+                    className="border w-full bg-white p-3"
+                  >
+                    <option value="" className="text-gray-700 font-medium">
+                      Choose...
+                    </option>
+                    {keralaDistricts.map((district) => (
+                      <option
+                        className="text-gray-700 font-medium"
+                        key={district}
+                        value={district}
+                      >
+                        {district}
+                      </option>
+                    ))}
+                  </select>
                 </label>
-                <input
-                  type="text"
-                  id="number"
-                  aria-label="Enter your district"
-                  className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
-                  placeholder="Enter your district"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <p className="text-red-500 text-sm mb-2 mt-1">
+                  {errors.district?.message}
+                </p>
               </div>
 
-              <button
+              <Button
                 type="submit"
                 className="w-full bg-purple-600 text-white p-3 rounded-md font-semibold hover:bg-purple-700 transition duration-300"
+                isLoading={isFetching}
               >
                 Sign up
-              </button>
+              </Button>
             </form>
           </div>
         </div>

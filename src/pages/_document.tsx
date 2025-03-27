@@ -1,4 +1,9 @@
+import { API_ENDPOINTS } from "@/config/apiConfig";
+import { useUser } from "@/context/UserContext";
+import useApi from "@/hooks/useApi";
 import { Html, Head, Main, NextScript } from "next/document";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Document() {
   return (
