@@ -8,9 +8,10 @@ import { keralaDistricts } from "@/utils/utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { useRouter } from "next/navigation"; // Correct import for Next.js App Router
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useUser } from "@/context/UserContext"; // Import user context
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,10 +23,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function Login() {
+export default function Register() {
   const router = useRouter();
   const { isFetching, request } = useApi();
+  const { userData } = useUser(); // Get user data from context
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (userData) {
+      router.push("/"); // Redirect to home if already signed in
+    }
+  }, [userData, router]);
 
   const {
     register,
@@ -37,22 +45,17 @@ export default function Login() {
 
   const onSubmit = async (data: registerInputs) => {
     setError("");
-    console.log(data);
-    const request_data = { ...data };
     const response = await request({
       API_ENDPOINT: API_ENDPOINTS.HOSPITAL_REGISTER,
       method: "POST",
-      data: request_data,
+      data,
       redirect: false,
     });
-    console.log(response);
+
     if (!response.ok) {
-      setError(
-        response.data?.message || "Phone number or password is incorrect"
-      );
-      return;
+      setError(response.data?.message || "Registration failed.");
     } else {
-      router.push("/signin");  
+      router.push("/signin");
     }
   };
 
@@ -60,11 +63,11 @@ export default function Login() {
     <div
       className={`flex flex-col md:flex-row h-[calc(100vh-65px)] p-4 bg-white ${geistSans.variable} ${geistMono.variable} gap-2`}
     >
-      <div className="w-full md:w-3/6 ">
+      <div className="w-full md:w-3/6">
         <div className="flex md:ml-4 mb-4 md:mb-0">
           <Image
             alt="Logo"
-            className="w-40 h-20  md:w-15 md:h-15 lg:w-40 lg:h-20"
+            className="w-40 h-20 md:w-15 md:h-15 lg:w-40 lg:h-20"
             src="/images/signin/Group.svg"
             width={1000}
             height={1000}
@@ -76,7 +79,7 @@ export default function Login() {
               Welcome to{" "}
               <span className="bg-gradient-to-r from-purple-900 to-indigo-500 inline-block text-transparent bg-clip-text">
                 PureLink Hospital
-              </span>
+              </span>{" "}
               Dashboard
             </h2>
             <p className="text-gray-500 mb-6">Please enter your details</p>
@@ -85,101 +88,87 @@ export default function Login() {
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">
-                <label
-                  className="block text-gray-700 font-medium"
-                  htmlFor="phone"
-                >
+                <label className="block text-gray-700 font-medium" htmlFor="username">
                   User Name
                 </label>
                 <input
                   type="text"
-                  id="phone"
-                  aria-label="Enter your user name"
+                  id="username"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="Enter your user name"
                   {...register("username")}
                 />
-                <p className="text-red-500 text-sm mb-2 mt-1">
-                  {errors.username?.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.username?.message}</p>
               </div>
 
               <div className="mb-4">
-                <label
-                  className="block text-gray-700 font-medium"
-                  htmlFor="password"
-                >
+                <label className="block text-gray-700 font-medium" htmlFor="email">
                   Email
                 </label>
                 <input
                   type="email"
                   id="email"
-                  aria-label="Enter your email"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="Enter your email"
                   {...register("email")}
                 />
-                <p className="text-red-500 text-sm mb-2 mt-1">
-                  {errors.email?.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.email?.message}</p>
               </div>
+
               <div className="mb-4">
-                <label
-                  className="block text-gray-700 font-medium"
-                  htmlFor="password"
-                >
+                <label className="block text-gray-700 font-medium" htmlFor="password">
                   Create Password
                 </label>
                 <input
                   type="password"
                   id="password"
-                  aria-label="Enter a password"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="********"
                   {...register("password")}
                 />
-                <p className="text-red-500 text-sm mb-2 mt-1">
-                  {errors.password?.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.password?.message}</p>
               </div>
+
               <div className="mb-4">
-                <label
-                  className="block text-gray-700 font-medium"
-                  htmlFor="address"
-                >
+                <label className="block text-gray-700 font-medium" htmlFor="address">
                   Address
                 </label>
                 <input
                   type="text"
                   id="address"
-                  aria-label="Add your address"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
-                  placeholder="Add your address"
+                  placeholder="Enter your address"
                   {...register("address")}
                 />
-                <p className="text-red-500 text-sm mb-2 mt-1">
-                  {errors.address?.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.address?.message}</p>
               </div>
 
               <div className="mb-4">
-                <label
-                  className="block text-gray-700 font-medium"
-                  htmlFor="address"
-                >
-                  phone Number
+                <label className="block text-gray-700 font-medium" htmlFor="phone_no">
+                  Phone Number
                 </label>
                 <input
                   type="text"
-                  id="number"
-                  aria-label="Enter phone number"
+                  id="phone_no"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
                   placeholder="Enter phone number"
                   {...register("phone_no")}
                 />
-                <p className="text-red-500 text-sm mb-2 mt-1">
-                  {errors.phone_no?.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.phone_no?.message}</p>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium" htmlFor="name">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
+                  placeholder="Enter Name"
+                  {...register("name")}
+                />
+                <p className="text-red-500 text-sm mt-1">{errors.name?.message}</p>
               </div>
 
               <div className="mb-4">
@@ -193,19 +182,13 @@ export default function Login() {
                       Choose...
                     </option>
                     {keralaDistricts.map((district) => (
-                      <option
-                        className="text-gray-700 font-medium"
-                        key={district}
-                        value={district}
-                      >
+                      <option key={district} value={district}>
                         {district}
                       </option>
                     ))}
                   </select>
                 </label>
-                <p className="text-red-500 text-sm mb-2 mt-1">
-                  {errors.district?.message}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.district?.message}</p>
               </div>
 
               <Button
@@ -221,7 +204,7 @@ export default function Login() {
       </div>
 
       {/* Right Side */}
-      <div className="hidden md:flex md:w-1/2 bg-purple-600 items-center justify-center relative overflow-hidden rounded-3xl min-h-[53rem] ">
+      <div className="hidden md:flex md:w-1/2 bg-purple-600 items-center justify-center relative overflow-hidden rounded-3xl min-h-[53rem]">
         <Image
           src="/images/signin/image.png"
           alt="Blood Donation"
@@ -231,8 +214,7 @@ export default function Login() {
         />
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-600 to-transparent p-8 md:p-16 rounded-r-lg">
           <p className="text-white text-xl md:text-4xl font-semibold">
-            {`“The life you save through blood donation may be a stranger's, but
-            the gratitude will be universal”`}
+            {`“The life you save through blood donation may be a stranger's, but the gratitude will be universal”`}
           </p>
           <p className="text-white mt-2 font-bold">__ __ __</p>
         </div>

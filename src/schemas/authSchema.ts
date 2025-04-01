@@ -1,23 +1,23 @@
 import { keralaDistricts } from "@/utils/utils";
 import * as yup from "yup";
 export const loginSchema = yup.object().shape({
-  phone: yup
+  username : yup
     .string()
-    .required("Phone number is required")
-    .matches(/^\d{10}$/, "Enter a valid 10-digit phone number"),
+    .required("Username is required"),
   password: yup
     .string()
     .required("password is required")
     .min(6, "Password must be at least 6 characters"),
 });
 export interface loginInputs {
-  phone: string;
+  username: string;
   password: string;
 }
 
 
 export interface registerInputs {
- username: string;
+  username: string;
+  name: string
   email: string;
   password: string;
   address: string;
@@ -27,6 +27,10 @@ export interface registerInputs {
 
 export const registerSchema = yup.object().shape({
   username: yup
+    .string()
+    .required("Username is required")
+    .max(20, "Name must be less than 20 characters"),
+  name: yup
     .string()
     .required("Name is required")
     .max(20, "Name must be less than 20 characters"),

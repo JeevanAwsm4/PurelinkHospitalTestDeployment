@@ -22,6 +22,9 @@ export default function Home() {
   const { request } = useApi();
   const { userData,isLogged } = useUser();
   React.useEffect(() => {
+    console.log("Stored Access Token:", userData?.accessToken);
+console.log("Stored Refresh Token:", userData?.refreshToken);
+
     const fetchData = async () => {
       const response = await request({
         API_ENDPOINT: API_ENDPOINTS.HOME_DATA,

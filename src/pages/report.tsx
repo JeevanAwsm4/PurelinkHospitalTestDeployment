@@ -41,6 +41,25 @@ export default function RestrictionsPage() {
   if (!isLogged) {
     return <></>;
   }
+
+  const handleReportCreation = async (hospitalId: string, donorId: number) => {
+    try {
+      const response = await request({
+        API_ENDPOINT: API_ENDPOINTS.CREATE_REPORT(hospitalId, donorId),
+        method: "POST",
+        token: userData?.accessToken, 
+      });
+  
+      if (response.ok) {
+        alert("Report successfully created!");
+      } else {
+        alert("Failed to create report.");
+      }
+    } catch (error) {
+      console.error("Error creating report:", error);
+    }
+  };
+  
   return (
     <div className="flex flex-col gap-6 w-full h-full">
       <div>
@@ -59,17 +78,17 @@ export default function RestrictionsPage() {
       <div className="text-[1rem] font-medium leading-[1.25] tracking-normal text-gray-900 max-md:text-xs">
         Request from past 7 days
       </div>
-      {data.current_data.map((item, index) => (
+      {data.current_data.map((report, index) => (
         <div
           key={index}
           className="rounded-3xl bg-gray-100 border-[1px] border-gray-200 px-4 py-6 pt-4 max-sm:px-2 flex flex-col gap-4"
         >
           <div className="flex justify-between max-md:flex-col">
             <div className="text-[0.875rem] font-medium leading-[1.43] tracking-normal max-sm:text-xs">
-              Date : {new Date(item.datetime).toLocaleDateString()}
+              Date : {new Date(report.datetime).toLocaleDateString()}
             </div>
             <div className="text-[0.875rem] font-medium leading-[1.43] tracking-normal text-gray-800 max-sm:text-xs">
-              Request id : {item.uuid}
+              Request id : {report.uuid}
             </div>
           </div>
 
@@ -93,7 +112,7 @@ export default function RestrictionsPage() {
                 </tr>
               </thead>
               <tbody>
-                {item.donor.map((item, index) => (
+                {report.donor.map((item, index) => (
                   <tr key={index} className="border-b-[1px] border-gray-200">
                     <td className="text-[0.875rem] font-medium leading-[1.43] tracking-normal py-4 px-6 max-md:py-2 max-md:px-3 whitespace-nowrap max-md:text-[0.6rem] ">
                       #{item.id}
@@ -127,9 +146,9 @@ export default function RestrictionsPage() {
                       </div>
                     </td>
                     <td className="py-4 px-6 max-md:py-2 max-md:px-3 whitespace-nowrap">
-                      <div className="rounded-lg px-3 py-2 text-[0.875rem] font-medium leading-[1.43] tracking-normal bg-red-300 text-white w-[6.25rem] text-center max-md:w-[4rem] max-md:text-[0.6rem]">
+                      <button className="rounded-lg px-3 py-2 text-[0.875rem] font-medium leading-[1.43] tracking-normal bg-red-300 text-white w-[6.25rem] text-center max-md:w-[4rem] max-md:text-[0.6rem]" onClick={() => handleReportCreation(report.uuid, item.id)}>
                         Report
-                      </div>
+                      </button>
                     </td>
                   </tr>
                 ))}

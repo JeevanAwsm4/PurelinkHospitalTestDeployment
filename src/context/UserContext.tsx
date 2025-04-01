@@ -2,7 +2,6 @@
 
 import { API_ENDPOINTS } from "@/config/apiConfig";
 import useApi from "@/hooks/useApi";
-import { clear } from "console";
 import { useRouter } from "next/router";
 import {
   createContext,
@@ -10,6 +9,7 @@ import {
   useState,
   ReactNode,
   useEffect,
+  useRef,
 } from "react";
 
 interface UserData {
@@ -21,7 +21,7 @@ interface UserData {
 interface UserContextType {
   userData: UserData | null;
   updateUserData: (data: UserData | null) => void;
-  login: (accessToken: string, refresh: string) => void;
+  login: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
   isLogged: boolean;
 }
@@ -33,6 +33,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [isLogged, setIsLogged] = useState(false);
   const [isVerifiedUser, setIsVerifiedUser] = useState(false);
   const router = useRouter();
+  const hasVerified = useRef(false); // Prevents multiple verifications
+
   const [userData, setUserData] = useState<UserData | null>(
     typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("user_data") || "null")
@@ -49,11 +51,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const login = (accessToken: string, refreshToken: string) => {
-    console.log(accessToken, refreshToken);
     updateUserData({
       ...userData,
-      accessToken: accessToken,
-      refreshToken: refreshToken,
+      accessToken,
+      refreshToken,
     });
     setIsLogged(true);
   };
@@ -61,38 +62,50 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     updateUserData(null);
     setIsLogged(false);
-    await localStorage.removeItem("user_data");
+    localStorage.removeItem("user_data");
     router.push("/signin");
   };
 
   useEffect(() => {
-    const verifyUser = async () => {
-      const response = await request({
-        API_ENDPOINT: API_ENDPOINTS.USER_VERIFY,
-        method: "POST",
-        data: { refresh: userData?.refreshToken },
-        redirect: true,
-      });
-      if (response.ok) {
-        setIsLogged(true);
-        router.push("/");
-      } else {
-        setIsLogged(false);
-        router.push("/signin");
-      }
+    if (!userData?.refreshToken) {
       setIsVerifiedUser(true);
+      if (router.pathname !== "/signin") router.push("/signin");
       return;
-    };
-    if (userData?.refreshToken) {
-      verifyUser();
-    } else {
-      setIsVerifiedUser(true);
-      router.push("/signin");
     }
+
+    if (hasVerified.current) return; // Prevents multiple calls
+    hasVerified.current = true;
+
+    const verifyUser = async () => {
+      try {
+        const response = await request({
+          API_ENDPOINT: API_ENDPOINTS.USER_VERIFY,
+          method: "POST",
+          data: { refresh: userData.refreshToken },
+        });
+
+        if (response.ok) {
+          setIsLogged(true);
+          if (router.pathname === "/signin") router.push("/");
+        } else {
+          setIsLogged(false);
+          localStorage.removeItem("user_data");
+          router.push("/signin");
+        }
+      } catch (error) {
+        console.error("Verification error:", error);
+      } finally {
+        setIsVerifiedUser(true);
+      }
+    };
+
+    verifyUser();
   }, []);
+
   if (!isVerifiedUser) {
     return <div>Loading...</div>;
   }
+
   return (
     <UserContext.Provider
       value={{ userData, updateUserData, login, logout, isLogged }}
@@ -108,18 +121,4 @@ export const useUser = () => {
     throw new Error("useUser must be used within a UserProvider");
   }
   return context;
-};
-
-export const userReducer = (
-  state: UserData,
-  action: { type: string; payload?: UserData }
-) => {
-  switch (action.type) {
-    case "LOGIN":
-      return { ...state, ...action.payload };
-    case "LOGOUT":
-      return null;
-    default:
-      return state;
-  }
 };

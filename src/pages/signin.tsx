@@ -38,7 +38,7 @@ export default function Login() {
   const onSubmit = async (data: loginInputs) => {
     setError("");
     console.log(data);
-    const request_data = { username: data.phone, password: data.password };
+    const request_data = { username: data.username, password: data.password };
     const response = await request({
       API_ENDPOINT: API_ENDPOINTS.LOGIN,
       method: "POST",
@@ -47,12 +47,12 @@ export default function Login() {
     });
     if (!response.ok) {
       setError(
-        response.data?.message || "Phone number or password is incorrect"
+        response.data?.message || "Username or password is incorrect"
       );
       return;
     } else {
       login(response.data?.access, response.data.refresh);
-      router.push("/");
+         router.push("/"); 
     }
   };
 
@@ -87,20 +87,20 @@ export default function Login() {
               <div className="mb-4">
                 <label
                   className="block text-gray-700 font-medium"
-                  htmlFor="phone"
+                  htmlFor="username"
                 >
-                  Phone Number
+                  Username
                 </label>
                 <input
                   type="text"
-                  id="phone"
-                  aria-label="Enter your phone number"
+                  id="username"
+                  aria-label="Enter your Username"
                   className="w-full p-3 border text-black rounded-md focus:ring-2 focus:ring-purple-500"
-                  placeholder="Enter your Phone Number"
-                  {...register("phone")}
+                  placeholder="Enter your Username"
+                  {...register("username")}
                 />
                 <p className="text-red-500 text-sm mb-4 mt-2">
-                  {errors.phone?.message}
+                  {errors.username?.message}
                 </p>
               </div>
               <div className="mb-4">

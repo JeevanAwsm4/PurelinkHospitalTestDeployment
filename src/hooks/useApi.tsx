@@ -53,7 +53,7 @@ const useApi = () => {
         ok: true,
         data: response.data,
         status_code: response.status,
-        response_status_code: data["status code"],
+        response_status_code: data["status_code"],
       };
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -70,7 +70,7 @@ const useApi = () => {
         ok: false,
         data: axiosError.response?.data,
         status_code: status,
-        response_status_code: data["status code"],
+        response_status_code: data["status_code"],
       };
     }
   };

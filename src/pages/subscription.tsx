@@ -23,7 +23,7 @@ const Subscription = () => {
         method: "GET",
         token: userData?.accessToken,
       });
-      if (response.ok) {
+      if (response.data.status_code = 6000) {
         console.log(response.data);
         setData({ ...response.data });
       }
@@ -58,9 +58,8 @@ const Subscription = () => {
               text-center p-6 md:p-8"
             >
               <p className="text-2xl md:text-[2.25rem] font-semibold leading-[2rem] md:leading-[2.625rem] tracking-[-0.02em] text-gray-900">
-                {/* ${data.price}/{data.duration}mth
-                 */}
-                {"No duration"}
+                 {data.price}₹/{data.duration_display}
+
               </p>
               <p className="mt-2 text-lg md:text-[1.25rem] font-semibold leading-[1.5rem] md:leading-[1.875rem]">
                 {data.name}
