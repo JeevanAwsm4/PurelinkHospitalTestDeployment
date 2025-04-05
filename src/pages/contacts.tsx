@@ -7,13 +7,13 @@ import { IContacts } from "@/interfaces/apiType";
 import useApi from "@/hooks/useApi";
 import { useUser } from "@/context/UserContext";
 import { API_ENDPOINTS } from "@/config/apiConfig";
-import {IDonor} from "@/interfaces/apiType";
+import { IDonor } from "@/interfaces/apiType";
 
 export default function ContactPage() {
   const [showAllContacts, setShowAllContacts] = useState(false);
   const [selectedDonors, setSelectedDonors] = useState<IDonor[]>([]);
   const [data, setData] = useState<IContacts>({
-    name : "",
+    name: "",
     current_data: [],
     other_data: [],
   });
@@ -45,7 +45,7 @@ export default function ContactPage() {
       }
     };
     fetchData();
-  }, []);
+  }, [request, userData?.accessToken]);
 
   if (!isLogged) {
     return <></>;
@@ -61,23 +61,22 @@ export default function ContactPage() {
           {data.current_data.map((request, index) => (
             <div key={index} className="bg-gray-100 rounded-lg p-4 max-md:p-2 shadow-sm mb-7">
               <div className="flex items-center justify-between mb-4">
-			  	<div>
-  					<h3 className="text-lg font-medium mb-1 max-md:text-sm">Contact Donors</h3>
-  					<p className="text-sm text-gray-500 max-md:text-xs">
-    					Signed in as <span className="text-indigo-500 cursor-default">{data.name}</span>
-  					</p>
-					<br/>
-  					<p className="text-sm text-gray-700 mt-2">
-    					Filed a request for <span className="font-semibold">{request.wanted_count}</span> donors.
- 		 			</p>
-            <p className="text-sm text-gray-700 mt-2">
-            <span className="font-semibold">{request.donor?.length}</span> donors have accepted.
- 		 			</p>
-				</div>
-				<div>
-					<p> Request ID : <strong>{request.uuid}</strong></p>
-				</div>
-
+                <div>
+                  <h3 className="text-lg font-medium mb-1 max-md:text-sm">Contact Donors</h3>
+                  <p className="text-sm text-gray-500 max-md:text-xs">
+                    Signed in as <span className="text-indigo-500 cursor-default">{data.name}</span>
+                  </p>
+                  <br />
+                  <p className="text-sm text-gray-700 mt-2">
+                    Filed a request for <span className="font-semibold">{request.wanted_count}</span> donors.
+                  </p>
+                  <p className="text-sm text-gray-700 mt-2">
+                    <span className="font-semibold">{request.donor?.length}</span> donors have accepted.
+                  </p>
+                </div>
+                <div>
+                  <p> Request ID : <strong>{request.uuid}</strong></p>
+                </div>
               </div>
 
               <div className="overflow-x-auto">
@@ -101,21 +100,19 @@ export default function ContactPage() {
               </div>
 
               <div className="flex justify-center mt-4 max-md:mt-2">
-              <button
-                className="flex items-center text-sm gap-1 text-indigo-500 font-medium max-md:text-xs"
-                onClick={() => {
-                  if (request.donor) {
-                    setShowAllContacts(true);
-                    setSelectedDonors(request.donor);
-                  }
-                }}
-                
+                <button
+                  className="flex items-center text-sm gap-1 text-indigo-500 font-medium max-md:text-xs"
+                  onClick={() => {
+                    if (request.donor) {
+                      setShowAllContacts(true);
+                      setSelectedDonors(request.donor);
+                    }
+                  }}
                 >
-                View all
-              <ArrowRight className="w-4 h-4 block max-md:w-3 max-md:h-3" />
-               </button>
+                  View all
+                  <ArrowRight className="w-4 h-4 block max-md:w-3 max-md:h-3" />
+                </button>
               </div>
-
             </div>
           ))}
 

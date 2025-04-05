@@ -100,7 +100,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     };
 
     verifyUser();
-  }, []);
+  }, [request, router, userData?.refreshToken]); // Add missing dependencies
 
   if (!isVerifiedUser) {
     return <div>Loading...</div>;

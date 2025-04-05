@@ -44,7 +44,7 @@ const TopBar = () => {
     };
 
     fetchImage();
-  }, [userData]);
+  }, [userData, request]); // Add missing dependency
 
   const [userProfile, setUserProfile] = useState<User>({
     avatar: "/images/profile.png",

@@ -1,38 +1,35 @@
-import { subscriptionData } from "@/@db/subscription";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@/components/atomic/button/Button";
 import Image from "next/image";
-import {
-  IDonationRequestFull,
-  IReportData,
-  ISubscriptionResponse,
-} from "@/interfaces/apiType";
+import { ISubscriptionResponse } from "@/interfaces/apiType";
 import useApi from "@/hooks/useApi";
 import { useUser } from "@/context/UserContext";
 import { API_ENDPOINTS } from "@/config/apiConfig";
 
 const Subscription = () => {
-  const {logout} = useUser()
   const [data, setData] = useState<ISubscriptionResponse>();
   const { request } = useApi();
-  const { userData,isLogged } = useUser();
-  React.useEffect(() => {
+  const { userData, isLogged } = useUser();
+
+  useEffect(() => {
     const fetchData = async () => {
       const response = await request({
         API_ENDPOINT: API_ENDPOINTS.SUBSCRIPTION,
         method: "GET",
         token: userData?.accessToken,
       });
-      if (response.data.status_code = 6000) {
+      if (response.data.status_code === 6000) {
         console.log(response.data);
         setData({ ...response.data });
       }
     };
     fetchData();
-  }, []);
+  }, [request, userData?.accessToken]);
+
   if (!isLogged) {
     return <></>;
   }
+
   return (
     <div className="p-4 md:p-0 flex flex-col gap-6 md:gap-8">
       {/* Heading */}
@@ -58,8 +55,7 @@ const Subscription = () => {
               text-center p-6 md:p-8"
             >
               <p className="text-2xl md:text-[2.25rem] font-semibold leading-[2rem] md:leading-[2.625rem] tracking-[-0.02em] text-gray-900">
-                 {data.price}₹/{data.duration_display}
-
+                {data.price}₹/{data.duration_display}
               </p>
               <p className="mt-2 text-lg md:text-[1.25rem] font-semibold leading-[1.5rem] md:leading-[1.875rem]">
                 {data.name}

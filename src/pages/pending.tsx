@@ -35,7 +35,7 @@ export default function NotAvailable() {
       .catch(() => {
         router.push("/signin"); // If verification fails, sign them out
       });
-  }, [userData]);
+  }, [userData, router]); // Add missing dependency
 
   if (!userData) return null; // Prevent rendering before redirect
 

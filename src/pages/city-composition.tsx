@@ -38,7 +38,8 @@ export default function CityComposition() {
       }
     };
     fetchData();
-  }, []);
+  }, [request, userData?.accessToken]);
+
   useEffect(() => {
     am4core.useTheme(am4themes_animated);
 

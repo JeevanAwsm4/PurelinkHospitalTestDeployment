@@ -1,7 +1,6 @@
 "use client";
-import { requestData } from "@/@db/home";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Button from "@/components/atomic/button/Button";
@@ -11,6 +10,7 @@ import useApi from "@/hooks/useApi";
 import { API_ENDPOINTS } from "@/config/apiConfig";
 import { useUser } from "@/context/UserContext";
 import { IHomeData, IRequestData } from "@/interfaces/apiType";
+
 export default function Home() {
   const router = useRouter();
   const [data, setData] = useState<IHomeData>({
@@ -20,10 +20,11 @@ export default function Home() {
     recent_requests: [],
   });
   const { request } = useApi();
-  const { userData,isLogged } = useUser();
-  React.useEffect(() => {
+  const { userData, isLogged } = useUser();
+
+  useEffect(() => {
     console.log("Stored Access Token:", userData?.accessToken);
-console.log("Stored Refresh Token:", userData?.refreshToken);
+    console.log("Stored Refresh Token:", userData?.refreshToken);
 
     const fetchData = async () => {
       const response = await request({
@@ -32,11 +33,10 @@ console.log("Stored Refresh Token:", userData?.refreshToken);
         token: userData?.accessToken,
       });
       if (response.ok) {
-        console.log(response)
+        console.log(response);
         const refinedData = response.data.recent_requests.map(
           (data: IRequestData) => {
             const date = new Date(data.datetime).toLocaleDateString();
-            const currentTime = new Date();
             return { ...data, datetime: date };
           }
         );
@@ -44,7 +44,7 @@ console.log("Stored Refresh Token:", userData?.refreshToken);
       }
     };
     fetchData();
-  }, []);
+  }, [request, userData?.accessToken, userData?.refreshToken]);
 
   const homeCards = [
     {
@@ -78,9 +78,11 @@ console.log("Stored Refresh Token:", userData?.refreshToken);
       highlight_type: "positive",
     },
   ];
-  if(!isLogged){
-    return <></>
+
+  if (!isLogged) {
+    return <></>;
   }
+
   return (
     <div>
       <div className="flex w-full flex-row  gap-4 flex-wrap max-[723px]:justify-center">
@@ -197,9 +199,9 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
                     {data.wanted_count}
                   </td>
                   <td className="p-4 border border-gray-200 capitalize min-w-[180px] flex ">
-                      <div className="bg-[#FEEE95] px-2 py-1 rounded-2xl text-[#B54708] text-[0.75rem] font-medium leading-[1.125rem] tracking-[0] text-center">
-                        {data.status}
-                      </div>
+                    <div className="bg-[#FEEE95] px-2 py-1 rounded-2xl text-[#B54708] text-[0.75rem] font-medium leading-[1.125rem] tracking-[0] text-center">
+                      {data.status}
+                    </div>
                   </td>
                   <td className="p-4 border border-gray-200 min-w-[180px]">
                     {data.datetime}

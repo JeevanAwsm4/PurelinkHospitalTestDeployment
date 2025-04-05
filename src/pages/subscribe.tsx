@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const Subscribe = () => {
-  const { userData, isLogged } = useUser();
+  const { userData } = useUser();
   const { request } = useApi();
   const [plans, setPlans] = useState([]);
   const [isVerified, setIsVerified] = useState(false);
@@ -69,7 +69,7 @@ const Subscribe = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center">
       <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-        <span className="text-blue-600">Uh Oh!</span> Looks like you're out of fuel ⛽.
+        <span className="text-blue-600">Uh Oh!</span> Looks like you&apos;re out of fuel ⛽.
         Resubscribe <a href="#" className="text-blue-600 underline">here</a>.
       </h2>
       <div className="flex flex-col md:flex-row flex-wrap gap-8 md:gap-14 items-center">
@@ -111,6 +111,7 @@ const Subscribe = () => {
       <p className="mt-6 text-sm text-gray-600">
         Signed in as <span className="text-blue-600">{userName || "Unknown User"}</span>
       </p>
+      <p>It&apos;s a great day!</p>
     </div>
   );
 };

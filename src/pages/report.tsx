@@ -1,17 +1,17 @@
-import { reportTableData } from "@/@db/report";
 import { API_ENDPOINTS } from "@/config/apiConfig";
 import { useUser } from "@/context/UserContext";
 import useApi from "@/hooks/useApi";
-import { ICityComposition, IDonationRequestFull, IReportData } from "@/interfaces/apiType";
-import React, { useState } from "react";
+import { IDonationRequestFull, IReportData } from "@/interfaces/apiType";
+import React, { useState, useEffect } from "react";
 
 export default function RestrictionsPage() {
   const [data, setData] = useState<IReportData>({
     current_data: [],
   });
   const { request } = useApi();
-  const { userData ,isLogged} = useUser();
-  React.useEffect(() => {
+  const { userData, isLogged } = useUser();
+
+  useEffect(() => {
     const fetchData = async () => {
       const response = await request({
         API_ENDPOINT: API_ENDPOINTS.REPORT_DATA,
@@ -20,24 +20,23 @@ export default function RestrictionsPage() {
       });
       if (response.ok) {
         const filteredData: IDonationRequestFull[] =
-          response.data.current_data.filter(
-            (item: IDonationRequestFull) => {
-              const today = new Date();
-              const date = new Date(item.datetime);
-              const diffTime = Math.abs(today.getTime() - date.getTime());
-              const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-              if (diffDays <= 7) {
-                return true;
-              }else{
-                return false;
-              }
+          response.data.current_data.filter((item: IDonationRequestFull) => {
+            const today = new Date();
+            const date = new Date(item.datetime);
+            const diffTime = Math.abs(today.getTime() - date.getTime());
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays <= 7) {
+              return true;
+            } else {
+              return false;
             }
-          );
-        setData({...response.data, current_data: filteredData});
+          });
+        setData({ ...response.data, current_data: filteredData });
       }
     };
     fetchData();
-  }, []);
+  }, [request, userData?.accessToken]);
+
   if (!isLogged) {
     return <></>;
   }
@@ -47,9 +46,9 @@ export default function RestrictionsPage() {
       const response = await request({
         API_ENDPOINT: API_ENDPOINTS.CREATE_REPORT(hospitalId, donorId),
         method: "POST",
-        token: userData?.accessToken, 
+        token: userData?.accessToken,
       });
-  
+
       if (response.ok) {
         alert("Report successfully created!");
       } else {
@@ -59,7 +58,7 @@ export default function RestrictionsPage() {
       console.error("Error creating report:", error);
     }
   };
-  
+
   return (
     <div className="flex flex-col gap-6 w-full h-full">
       <div>
@@ -146,7 +145,12 @@ export default function RestrictionsPage() {
                       </div>
                     </td>
                     <td className="py-4 px-6 max-md:py-2 max-md:px-3 whitespace-nowrap">
-                      <button className="rounded-lg px-3 py-2 text-[0.875rem] font-medium leading-[1.43] tracking-normal bg-red-300 text-white w-[6.25rem] text-center max-md:w-[4rem] max-md:text-[0.6rem]" onClick={() => handleReportCreation(report.uuid, item.id)}>
+                      <button
+                        className="rounded-lg px-3 py-2 text-[0.875rem] font-medium leading-[1.43] tracking-normal bg-red-300 text-white w-[6.25rem] text-center max-md:w-[4rem] max-md:text-[0.6rem]"
+                        onClick={() =>
+                          handleReportCreation(report.uuid, item.id)
+                        }
+                      >
                         Report
                       </button>
                     </td>
