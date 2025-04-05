@@ -30,6 +30,7 @@ interface IDonationRequest {
 }
 
 export interface IContacts {
+  name : string;
   current_data: IDonationRequest[];
   other_data: IDonationRequest[];
 }
