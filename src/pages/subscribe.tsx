@@ -9,10 +9,18 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
+interface Plan {
+  price: string; // Ensure `price` is defined
+  duration_display: string;
+  name: string;
+  features: string[];
+  payment_link: string;
+}
+
 const Subscribe = () => {
   const { userData } = useUser();
   const { request } = useApi();
-  const [plans, setPlans] = useState([]);
+  const [plans, setPlans] = useState<Plan[]>([]); // Use the `Plan` interface for typing
   const [isVerified, setIsVerified] = useState(false);
   const [hasSubscription, setHasSubscription] = useState(false);
   const [userName, setUserName] = useState(""); // Store the user's name
@@ -57,7 +65,7 @@ const Subscribe = () => {
       });
 
       if (response.ok) {
-        setPlans(response.data.data);
+        setPlans(response.data.data); // Ensure `response.data.data` matches the `Plan` interface
       }
     };
 
