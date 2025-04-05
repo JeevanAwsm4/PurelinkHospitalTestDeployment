@@ -8,7 +8,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import Button from "../button/Button";
-import "@/styles/global.css";
 
 export default function Requests() {
   const [error, setError] = useState("");

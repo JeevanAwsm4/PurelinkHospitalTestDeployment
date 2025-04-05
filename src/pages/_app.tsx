@@ -1,8 +1,8 @@
+import "@/styles/global.css"; // Ensure global styles are imported here
 import Navbar from "@/components/organisms/navbar/Navbar";
 import TopBar from "@/components/organisms/topbar/Topbar";
 import { UserProvider } from "@/context/UserContext";
-import PrivateRoutes from "@/components/PrivateRoutes"; // Import PrivateRoutes
-import "@/styles/global.css";
+import PrivateRoutes from "@/components/PrivateRoutes";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 

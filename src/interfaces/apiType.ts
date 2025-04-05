@@ -70,4 +70,6 @@ interface ISubscription {
   price: string;
   color: string;
   features: string[];
+  duration_display: string;
+  is_active: boolean; // Add this property
 }
