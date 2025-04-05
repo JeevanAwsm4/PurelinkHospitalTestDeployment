@@ -12,6 +12,7 @@ export default function ContactPage() {
   const [showAllContacts, setShowAllContacts] = useState(false);
   const [selectedDonors, setSelectedDonors] = useState([]);
   const [data, setData] = useState<IContacts>({
+    name : "",
     current_data: [],
     other_data: [],
   });
