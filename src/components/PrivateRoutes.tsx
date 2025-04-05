@@ -41,7 +41,7 @@ export default function PrivateRoutes({ children }: { children: React.ReactNode 
     return () => {
       isMounted = false; // Cleanup to avoid memory leaks
     };
-  }, [pathname, router]); // Add missing dependencies
+  }, [pathname, router, userData]); // Add `userData` to the dependency array
 
   if (isLoading) return <LoadingIndicator />;
 
