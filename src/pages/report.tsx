@@ -148,7 +148,7 @@ export default function RestrictionsPage() {
                       <button
                         className="rounded-lg px-3 py-2 text-[0.875rem] font-medium leading-[1.43] tracking-normal bg-red-300 text-white w-[6.25rem] text-center max-md:w-[4rem] max-md:text-[0.6rem]"
                         onClick={() =>
-                          handleReportCreation(report.uuid, item.id)
+                          handleReportCreation(report.uuid, Number(item.id)) // Ensure `item.id` is converted to a number
                         }
                       >
                         Report
