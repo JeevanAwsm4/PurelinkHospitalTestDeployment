@@ -1,4 +1,4 @@
-import React, { useRef, useState,useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
 import { useUser } from "@/context/UserContext";
@@ -21,7 +21,6 @@ const TopBar = () => {
     });
   });
 
-  
   useEffect(() => {
     const fetchImage = async () => {
       if (!userData?.accessToken) return;
@@ -32,7 +31,7 @@ const TopBar = () => {
         token: userData.accessToken,
       });
 
-      console.log(res)
+      console.log(res);
 
       if (res.ok && res.data.status_code === 6000) {
         setUserProfile((prev) => ({
@@ -45,7 +44,7 @@ const TopBar = () => {
     };
 
     fetchImage();
-  }, [userData])
+  }, [userData]);
 
   const [userProfile, setUserProfile] = useState<User>({
     avatar: "/images/profile.png",
@@ -127,13 +126,15 @@ const TopBar = () => {
               <button
                 type="submit"
                 className="bg-none border-none outline-none cursor-pointer"
+                aria-label="Search" // Accessible label
               >
                 <FiSearch className="text-gray-400 text-sm" />
               </button>
               <input
                 type="text"
                 className="outline-none text-xs text-gray-900 w-80 placeholder:text-gray-400"
-                placeholder="Search"
+                placeholder="Enter text here"
+                aria-label="Search input"
                 value={searchQuery}
                 onChange={handleSearchChange}
               />
@@ -156,6 +157,7 @@ const TopBar = () => {
                 accept="image/*"
                 className="hidden"
                 onChange={handleImageChange}
+                title="Upload profile image"
               />
             </div>
           </div>

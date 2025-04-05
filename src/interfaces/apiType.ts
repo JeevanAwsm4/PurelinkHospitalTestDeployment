@@ -14,13 +14,15 @@ export interface IRequestData {
   status: string;
 }
 
-interface IDonor {
+export interface IDonor {
+  id: string;
   name: string;
-  blood_group: string;
   phone_no: string;
+  blood_group: string;
 }
 
 interface IDonationRequest {
+  uuid : string,
   type_of_donation: string;
   blood_group: string;
   datetime: string;
@@ -43,14 +45,6 @@ export interface ICityComposition {
   "O-": number;
   "AB+": number;
   "AB-": number;
-}
-
-interface IDonor {
-  id: number;
-  name: string;
-  blood_group: string;
-  rep_score: number;
-  serial_number: number;
 }
 
 export interface IDonationRequestFull {

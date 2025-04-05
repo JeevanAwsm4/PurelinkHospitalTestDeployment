@@ -7,10 +7,11 @@ import { IContacts } from "@/interfaces/apiType";
 import useApi from "@/hooks/useApi";
 import { useUser } from "@/context/UserContext";
 import { API_ENDPOINTS } from "@/config/apiConfig";
+import {IDonor} from "@/interfaces/apiType";
 
 export default function ContactPage() {
   const [showAllContacts, setShowAllContacts] = useState(false);
-  const [selectedDonors, setSelectedDonors] = useState([]);
+  const [selectedDonors, setSelectedDonors] = useState<IDonor[]>([]);
   const [data, setData] = useState<IContacts>({
     name : "",
     current_data: [],
@@ -88,7 +89,7 @@ export default function ContactPage() {
                     <div className="text-left text-gray-800 max-md:text-xs">Blood group</div>
                   </div>
 
-                  {request.donor.map((donor_s, index) => (
+                  {request.donor?.map((donor_s, index) => (
                     <div key={index} className="grid grid-cols-4 gap-4 text-xs font-medium shadow-sm p-3 text-gray-500 max-md:p-2">
                       <div>#{donor_s.id}</div>
                       <div>{donor_s.phone_no}</div>
@@ -103,9 +104,12 @@ export default function ContactPage() {
               <button
                 className="flex items-center text-sm gap-1 text-indigo-500 font-medium max-md:text-xs"
                 onClick={() => {
-                  setShowAllContacts(true);
-                  setSelectedDonors(request.donor);
+                  if (request.donor) {
+                    setShowAllContacts(true);
+                    setSelectedDonors(request.donor);
+                  }
                 }}
+                
                 >
                 View all
               <ArrowRight className="w-4 h-4 block max-md:w-3 max-md:h-3" />
@@ -123,7 +127,7 @@ export default function ContactPage() {
                 <div key={index} className="flex items-center flex-wrap gap-4 justify-between p-3 rounded-lg bg-[#FFFBFA] border border-red-100 w-full">
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
                     Request ID <br />
-                    <span className="text-gray-700 inline-block mt-1">#{request.id ?? "N/A"}</span>
+                    <span className="text-gray-700 inline-block mt-1">#{request.uuid ?? "N/A"}</span>
                   </p>
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
                     Requested Date <br />
