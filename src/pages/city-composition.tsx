@@ -6,7 +6,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import useApi from "@/hooks/useApi";
 import { useUser } from "@/context/UserContext";
-import { ICityComposition, IContacts } from "@/interfaces/apiType";
+import { ICityComposition } from "@/interfaces/apiType";
 import { API_ENDPOINTS } from "@/config/apiConfig";
 
 export default function CityComposition() {
@@ -20,9 +20,9 @@ export default function CityComposition() {
     "O+": 0,
     "O-": 0,
   });
-  const [name,setName] = useState("")
+  const [name, setName] = useState("");
   const { request } = useApi();
-  const { userData,isLogged } = useUser();
+  const { userData, isLogged } = useUser();
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +34,7 @@ export default function CityComposition() {
       console.log(response);
       if (response.ok) {
         setData(response.data);
-        setName(response.data.name)
+        setName(response.data.name);
       }
     };
     fetchData();
