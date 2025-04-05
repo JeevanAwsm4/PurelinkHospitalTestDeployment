@@ -5,7 +5,7 @@ export interface IHomeData {
   recent_requests: IRequestData[];
 }
 export interface IRequestData {
-  request_id?: string;
+  uuid?: string;
   blood_group: string;
   donors_count: number;
   wanted_count: string;

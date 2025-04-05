@@ -57,12 +57,12 @@ export default function ContactPage() {
         <section className="bg-gray-50 w-full h-full max-md:p-0">
           {/* Contact Donors Section */}
           {data.current_data.map((request, index) => (
-            <div key={index} className="bg-gray-100 rounded-lg p-4 max-md:p-2 shadow-sm">
+            <div key={index} className="bg-gray-100 rounded-lg p-4 max-md:p-2 shadow-sm mb-7">
               <div className="flex items-center justify-between mb-4">
 			  	<div>
   					<h3 className="text-lg font-medium mb-1 max-md:text-sm">Contact Donors</h3>
   					<p className="text-sm text-gray-500 max-md:text-xs">
-    					Signed in as <span className="text-indigo-500 cursor-default">Medicity Kollam</span>
+    					Signed in as <span className="text-indigo-500 cursor-default">{data.name}</span>
   					</p>
 					<br/>
   					<p className="text-sm text-gray-700 mt-2">

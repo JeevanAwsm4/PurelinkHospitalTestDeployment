@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
-import { User } from "../../../interfaces/interface";
-
-import "react-datepicker/dist/react-datepicker.css";
 import Image from "next/image";
 import { useUser } from "@/context/UserContext";
+import useApi from "@/hooks/useApi";
+import { API_ENDPOINTS } from "@/config/apiConfig";
+import { User } from "../../../interfaces/interface";
 
 const TopBar = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const { isLogged } = useUser();
+  const { isLogged, userData } = useUser();
+  const { request } = useApi();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [currentDate] = useState<string>(() => {
     const now = new Date();
     return now.toLocaleDateString("en-US", {
@@ -18,6 +20,32 @@ const TopBar = () => {
       day: "numeric",
     });
   });
+
+  
+  useEffect(() => {
+    const fetchImage = async () => {
+      if (!userData?.accessToken) return;
+
+      const res = await request({
+        API_ENDPOINT: API_ENDPOINTS.GET_PFP,
+        method: "POST",
+        token: userData.accessToken,
+      });
+
+      console.log(res)
+
+      if (res.ok && res.data.status_code === 6000) {
+        setUserProfile((prev) => ({
+          ...prev,
+          avatar: res.data.image_url,
+        }));
+      } else {
+        console.error("Failed to fetch image", res.data);
+      }
+    };
+
+    fetchImage();
+  }, [userData])
 
   const [userProfile, setUserProfile] = useState<User>({
     avatar: "/images/profile.png",
@@ -29,17 +57,6 @@ const TopBar = () => {
     address: "258 Quigley Parkways, Elisabethland, Trinidad and Tobago 55212",
   });
 
-  useEffect(() => {
-    setUserProfile({
-      avatar: "/images/profile.png",
-      id: 1234567,
-      name: "Damien Smith",
-      bloodGroup: "AB+",
-      phoneNumber: "9876543212",
-      district: "Ernakulam",
-      address: "258 Quigley Parkways, Elisabethland, Trinidad and Tobago 55212",
-    });
-  }, []);
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -48,9 +65,46 @@ const TopBar = () => {
     event.preventDefault();
     console.log(`Search Query Submitted: ${searchQuery}`);
   };
-  if (!isLogged) {
-    return <></>;
-  }
+
+  const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file || !userData?.accessToken) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await fetch(API_ENDPOINTS.UPLOAD_IMAGE, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userData.accessToken}`,
+        // DO NOT set 'Content-Type' manually here!
+      },
+      body: formData,
+    });
+
+    const resData = await res.json();
+    console.log(resData);
+
+    if (res.ok) {
+      const updatedImage = resData.image;
+      setUserProfile((prev) => ({
+        ...prev,
+        avatar: updatedImage,
+      }));
+    } else {
+      console.error("Image upload failed", resData.image || resData);
+    }
+  };
+
+  if (!isLogged) return <></>;
 
   return (
     <div className="lg:block hidden">
@@ -85,14 +139,23 @@ const TopBar = () => {
               />
             </form>
 
-            <div className="w-10 h-10 block cursor-pointer">
+            <div
+              className="w-10 h-10 block cursor-pointer"
+              onClick={handleImageClick}
+            >
               <Image
-                src={userProfile?.avatar}
+                src={userProfile.avatar}
                 alt="Profile"
                 className="w-full h-full block object-cover rounded-[50%] border border-solid border-gray-200"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                width={10}
-                height={10}
+                width={40}
+                height={40}
+              />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
               />
             </div>
           </div>

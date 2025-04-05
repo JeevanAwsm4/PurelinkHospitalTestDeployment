@@ -32,15 +32,12 @@ console.log("Stored Refresh Token:", userData?.refreshToken);
         token: userData?.accessToken,
       });
       if (response.ok) {
+        console.log(response)
         const refinedData = response.data.recent_requests.map(
           (data: IRequestData) => {
             const date = new Date(data.datetime).toLocaleDateString();
             const currentTime = new Date();
-            const timeDifference =
-              currentTime.getTime() - new Date(data.datetime).getTime();
-            const status =
-              timeDifference > 24 * 60 * 60 * 1000 ? "completed" : "pending";
-            return { ...data, datetime: date, status };
+            return { ...data, datetime: date };
           }
         );
         setData({ ...response.data, recent_requests: refinedData });
@@ -188,7 +185,7 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
               {data.recent_requests.map((data, index) => (
                 <tr key={index} className="text-left">
                   <td className="p-4 border border-gray-200 min-w-[180px]">
-                    {"12345"}
+                    {data.uuid}
                   </td>
                   <td className="p-4 border border-gray-200 min-w-[180px]">
                     {data.blood_group}
@@ -200,13 +197,9 @@ shadow-[0_2px_4px_-2px_rgba(16,24,40,0.06),0_4px_8px_-2px_rgba(16,24,40,0.10)] p
                     {data.wanted_count}
                   </td>
                   <td className="p-4 border border-gray-200 capitalize min-w-[180px] flex ">
-                    {data.status === "pending" ? (
                       <div className="bg-[#FEEE95] px-2 py-1 rounded-2xl text-[#B54708] text-[0.75rem] font-medium leading-[1.125rem] tracking-[0] text-center">
-                        Pending
+                        {data.status}
                       </div>
-                    ) : (
-                      "Completed"
-                    )}
                   </td>
                   <td className="p-4 border border-gray-200 min-w-[180px]">
                     {data.datetime}

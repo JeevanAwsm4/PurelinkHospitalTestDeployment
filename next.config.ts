@@ -1,19 +1,12 @@
-
-
 /** @type {import('next').NextConfig} */
 
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactStrictMode: true,
-};
-
-module.exports = nextConfig;
-export default nextConfig;
-const a = `
-
-const nextConfig = {
+  images: {
+    domains: ['https://api.purelink.in'], // ✅ Allow image loading from localhost
+  },
   transpilePackages: ["@amcharts/amcharts4"],
   experimental: {
     esmExternals: "loose",
@@ -22,4 +15,3 @@ const nextConfig = {
 
 module.exports = nextConfig;
 export default nextConfig;
-`;

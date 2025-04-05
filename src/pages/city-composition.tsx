@@ -20,6 +20,7 @@ export default function CityComposition() {
     "O+": 0,
     "O-": 0,
   });
+  const [name,setName] = useState("")
   const { request } = useApi();
   const { userData,isLogged } = useUser();
 
@@ -33,6 +34,7 @@ export default function CityComposition() {
       console.log(response);
       if (response.ok) {
         setData(response.data);
+        setName(response.data.name)
       }
     };
     fetchData();
@@ -94,7 +96,7 @@ export default function CityComposition() {
         <div className="text-[0.875rem] font-normal leading-[1.43] tracking-normal text-gray-500 max-md:text-xs">
           Signed in as{" "}
           <span className="text-[0.875rem] font-normal leading-[1.43] tracking-normal text-[#7464F0] max-md:text-xs">
-            Medicity Kollam
+            {name}
           </span>
         </div>
       </div>

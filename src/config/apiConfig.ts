@@ -1,4 +1,4 @@
-export const BASE_URL = "http://127.0.0.1:8000/api/v1";
+export const BASE_URL = "https://api.purelink.in/api/v1";
 
 export const API_ENDPOINTS = {
   LOGIN: `${BASE_URL}/auth/token/`,
@@ -13,4 +13,6 @@ export const API_ENDPOINTS = {
   CREATE_REPORT: (hospitalId: string, donorId: number) => `${BASE_URL}/panel/report/${hospitalId}/${donorId}/`,
   SUBSCRIPTION: `${BASE_URL}/panel/subscriptions/`,
   SUBSCRIBE: `${BASE_URL}/panel/create_subscription/`,
+  UPLOAD_IMAGE: `${BASE_URL}/panel/image/`,
+  GET_PFP: `${BASE_URL}/panel/get_image/`
 };
