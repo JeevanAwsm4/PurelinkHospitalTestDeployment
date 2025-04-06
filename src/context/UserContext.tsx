@@ -69,7 +69,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!userData?.refreshToken) {
       setIsVerifiedUser(true);
-      if (router.pathname !== "/signin") router.push("/signin");
+      if (router.pathname !== "/signin" && "/signup") router.push("/signin");
       return;
     }
 

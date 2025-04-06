@@ -25,7 +25,7 @@ export default function PrivateRoutes({ children }: { children: React.ReactNode 
 
     axios
       .get(`${BASE_URL}/panel/verify/`, {
-        headers: { Authorization: `Bearer ${userData.accessToken}` },
+        headers: { Authorization: `Bearer ${userData?.accessToken}` },
       })
       .then((res) => {
         if (isMounted) {
