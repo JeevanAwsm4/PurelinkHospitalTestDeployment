@@ -15,7 +15,7 @@ export default function PrivateRoutes({ children }: { children: React.ReactNode 
 
   useEffect(() => {
     if (!userData) {
-      if (pathname !== "/signin") router.push("/signin");
+      if (pathname !== "/signin" && pathname !== "/signup") router.push("/signin");
       return;
     }
 
