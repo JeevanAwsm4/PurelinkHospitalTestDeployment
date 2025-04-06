@@ -128,12 +128,6 @@ export default function Login() {
                   <input type="checkbox" className="mr-2" />
                   Remember for 30 days
                 </label>
-                <a
-                  href="#"
-                  className="text-purple-600 font-semibold max-sm:text-[0.7rem]"
-                >
-                  Forgot password?
-                </a>
               </div>
 
               <Button

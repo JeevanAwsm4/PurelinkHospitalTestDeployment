@@ -14,10 +14,12 @@ export default function PrivateRoutes({ children }: { children: React.ReactNode 
   const pathname = usePathname(); // Get current route
 
   useEffect(() => {
-    if (!userData) {
-      if (pathname !== "/signin" && pathname !== "/signup") router.push("/signin");
-      return;
-    }
+      const publicPaths = ["/signin", "/signup"];
+    
+      if (!userData && !publicPaths.includes(pathname)) {
+        router.push("/signin");
+      }
+    
 
     let isMounted = true; // Prevents state updates after unmounting
 
