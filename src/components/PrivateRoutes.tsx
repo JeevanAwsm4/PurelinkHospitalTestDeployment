@@ -14,14 +14,13 @@ export default function PrivateRoutes({ children }: { children: React.ReactNode 
   const pathname = usePathname(); // Get current route
 
   useEffect(() => {
-      const publicPaths = ["/signin", "/signup"];
-    
-      if (!userData && !publicPaths.includes(pathname)) {
-        router.push("/signin");
-      }
-    
+    const publicPaths = ["/signin", "/signup"]; // Include `/signup` as a public path
 
-    let isMounted = true; // Prevents state updates after unmounting
+    if (!userData && !publicPaths.includes(pathname)) {
+      router.push("/signin");
+    }
+
+    let isMounted = true;
 
     axios
       .get(`${BASE_URL}/panel/verify/`, {
@@ -41,9 +40,9 @@ export default function PrivateRoutes({ children }: { children: React.ReactNode 
       });
 
     return () => {
-      isMounted = false; // Cleanup to avoid memory leaks
+      isMounted = false;
     };
-  }, [pathname, router, userData]); // Add `userData` to the dependency array
+  }, [pathname, router, userData]);
 
   if (isLoading) return <LoadingIndicator />;
 

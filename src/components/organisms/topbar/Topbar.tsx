@@ -33,7 +33,7 @@ const TopBar = () => {
 
       console.log(res);
 
-      if (res.ok && res.data.status_code === 6000) {
+      if (res.status_code === 6000) {
         setUserProfile((prev) => ({
           ...prev,
           avatar: res.data.image_url,

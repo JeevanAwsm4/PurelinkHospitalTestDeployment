@@ -55,7 +55,7 @@ export default function Register() {
     if (!response.ok) {
       setError(response.data?.message || "Registration failed.");
     } else {
-      router.push("/signin");
+      //router.push("/signin");
     }
   };
 
