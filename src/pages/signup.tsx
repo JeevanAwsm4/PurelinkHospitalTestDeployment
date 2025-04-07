@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation"; // Correct import for Next.js App Router
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2"
 import { useUser } from "@/context/UserContext"; // Import user context
 
 const geistSans = Geist({
@@ -52,11 +53,17 @@ export default function Register() {
       redirect: false,
     });
 
+    console.log(response)
+
     if (!response.ok) {
       setError(response.data?.message || "Registration failed.");
     } else {
-      Swal.fire()
-      router.push("/signin");
+      Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: response.data.message,
+      })
+      //router.push("/signin");
     }
   };
 

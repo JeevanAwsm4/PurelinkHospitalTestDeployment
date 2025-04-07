@@ -119,27 +119,6 @@ const TopBar = () => {
           </div>
 
           <div className="flex items-center gap-5">
-            <form
-              onSubmit={handleSearchSubmit}
-              className="relative flex items-center gap-1 py-2 px-3 border border-solid border-gray-300 rounded-2xl bg-white flex-1 w-full"
-            >
-              <button
-                type="submit"
-                className="bg-none border-none outline-none cursor-pointer"
-                aria-label="Search" // Accessible label
-              >
-                <FiSearch className="text-gray-400 text-sm" />
-              </button>
-              <input
-                type="text"
-                className="outline-none text-xs text-gray-900 w-80 placeholder:text-gray-400"
-                placeholder="Enter text here"
-                aria-label="Search input"
-                value={searchQuery}
-                onChange={handleSearchChange}
-              />
-            </form>
-
             <div
               className="w-10 h-10 block cursor-pointer"
               onClick={handleImageClick}

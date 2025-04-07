@@ -186,15 +186,6 @@ const Navbar: React.FC = () => {
             </ul>
             <hr className="w-full text-gray-300 mt-4 mb-6" />
             <div className="flex-auto">
-              <Link
-                href="/settings"
-                className={`text-sm hover:text-indigo-600 transition-colors ${
-                  router.pathname === "/settings" ? "text-indigo-600" : ""
-                }`}
-              >
-                <span>Settings</span>
-              </Link>{" "}
-              <br />
               <button
                 onClick={async() => await logout()}
                 className="text-sm hover:text-indigo-500 transition-colors mt-2"
