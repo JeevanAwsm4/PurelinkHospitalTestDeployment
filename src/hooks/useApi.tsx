@@ -60,7 +60,7 @@ const useApi = () => {
       const status = axiosError.response?.status || 500;
       if (redirect) {
         if (status === 401) router.push("/signin");
-        if (status === 403) router.push("/forbidden");
+        //if (status === 403) router.push("/forbidden");
       }
 
       setIsFetching(false);
