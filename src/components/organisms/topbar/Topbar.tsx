@@ -6,7 +6,6 @@ import { API_ENDPOINTS } from "@/config/apiConfig";
 import { User } from "../../../interfaces/interface";
 
 const TopBar = () => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
   const { isLogged, userData } = useUser();
   const { request } = useApi();
   const fileInputRef = useRef<HTMLInputElement>(null);
