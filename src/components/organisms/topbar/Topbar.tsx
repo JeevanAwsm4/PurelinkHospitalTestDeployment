@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
 import { useUser } from "@/context/UserContext";
 import useApi from "@/hooks/useApi";
@@ -55,15 +54,6 @@ const TopBar = () => {
     district: "Ernakulam",
     address: "258 Quigley Parkways, Elisabethland, Trinidad and Tobago 55212",
   });
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(`Search Query Submitted: ${searchQuery}`);
-  };
 
   const handleImageClick = () => {
     if (fileInputRef.current) {
