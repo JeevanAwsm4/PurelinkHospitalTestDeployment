@@ -14,19 +14,21 @@ export default function PrivateRoutes({ children }: { children: React.ReactNode 
   const pathname = usePathname(); // Get current route
 
   useEffect(() => {
-    const publicPaths = ["/signin", "/signup"]; // Include `/signup` as a public path
+      const publicPaths = ["/signin", "/signup"];
+    
+      if (!userData && !publicPaths.includes(pathname)) {
+        router.push("/signin");
+      }
+    
 
-    if (!userData && !publicPaths.includes(pathname)) {
-      router.push("/signin");
-    }
-
-    let isMounted = true;
+    let isMounted = true; // Prevents state updates after unmounting
 
     axios
       .get(`${BASE_URL}/panel/verify/`, {
         headers: { Authorization: `Bearer ${userData?.accessToken}` },
       })
       .then((res) => {
+        console.log(res.data);
         if (isMounted) {
           setIsVerified(res.data.status_code === 6000);
           setHasSubscription(res.data.subscription_active);
@@ -40,9 +42,9 @@ export default function PrivateRoutes({ children }: { children: React.ReactNode 
       });
 
     return () => {
-      isMounted = false;
+      isMounted = false; // Cleanup to avoid memory leaks
     };
-  }, [pathname, router, userData]);
+  }, [pathname, router, userData]); // Add `userData` to the dependency array
 
   if (isLoading) return <LoadingIndicator />;
 

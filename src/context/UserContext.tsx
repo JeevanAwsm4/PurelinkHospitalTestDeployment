@@ -69,14 +69,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!userData?.refreshToken) {
       setIsVerifiedUser(true);
-      if (router.pathname !== "/signin" && router.pathname !== "/signup") {
-        router.push("/signin"); // Redirect only if not on `/signin` or `/signup`
-      }
+      if (router.pathname !== "/signin" && "/signup") router.push("/signin");
       return;
     }
 
-    if (hasVerified.current) return;
-
+    if (hasVerified.current) return; // Prevents multiple calls
     hasVerified.current = true;
 
     const verifyUser = async () => {
@@ -103,7 +100,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     };
 
     verifyUser();
-  }, [request, router, userData?.refreshToken]);
+  }, [request, router, userData?.refreshToken]); // Add missing dependencies
 
   if (!isVerifiedUser) {
     return <div>Loading...</div>;
