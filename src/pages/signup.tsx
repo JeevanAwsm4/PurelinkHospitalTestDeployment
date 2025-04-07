@@ -56,14 +56,14 @@ export default function Register() {
     console.log(response)
 
     if (!response.ok) {
-      setError(response.data?.message || "Registration failed.");
-    } else {
+      setError(response.data?.message || "Registration failed.");    
       Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: response.data.message,
-      })
-      //router.push("/signin");
+        icon: "error",
+        title: "Error",
+        text: response.data.message,
+    })
+    } else {
+      router.push("/signin");
     }
   };
 
