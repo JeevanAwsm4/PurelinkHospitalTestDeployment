@@ -36,7 +36,8 @@ const TopBar = () => {
         setUserProfile((prev) => ({
           ...prev,
           avatar: res.data.image_url,
-        }));
+        }));    
+      console.log("avatar" + userProfile.avatar)
       } else {
         console.error("Failed to fetch image", res.data);
       }
@@ -88,7 +89,6 @@ const TopBar = () => {
         ...prev,
         avatar: updatedImage,
       }));
-      console.log("avatar" : userProfile.avatar)
     } else {
       console.error("Image upload failed", resData.image || resData);
     }
