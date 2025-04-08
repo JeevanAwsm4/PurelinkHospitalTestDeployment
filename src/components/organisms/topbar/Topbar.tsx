@@ -88,7 +88,7 @@ const TopBar = () => {
         ...prev,
         avatar: updatedImage,
       }));
-      console.log(userProfile.avatar)
+      console.log("avatar" : userProfile.avatar)
     } else {
       console.error("Image upload failed", resData.image || resData);
     }
