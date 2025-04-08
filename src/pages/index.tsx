@@ -23,8 +23,8 @@ export default function Home() {
   const { userData, isLogged } = useUser();
 
   useEffect(() => {
-    console.log("Stored Access Token:", userData?.accessToken);
-    console.log("Stored Refresh Token:", userData?.refreshToken);
+    //console.log("Stored Access Token:", userData?.accessToken);
+    //console.log("Stored Refresh Token:", userData?.refreshToken);
 
     const fetchData = async () => {
       const response = await request({

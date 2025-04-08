@@ -77,8 +77,8 @@ export default function Requests() {
               {...register("type_of_donation")}
             >
               <option value={""}>Select Type</option>
-              <option value="blood">blood</option>
-              <option value={"platelets"}>platelets</option>
+              <option value="blood">Blood</option>
+              <option value={"platelets"}>Platelets</option>
               <option value={"RBC"}>RBC</option>
             </select>
             <p className="text-red-500 text-sm mb-4">
@@ -112,15 +112,12 @@ export default function Requests() {
             <label className="block text-[14px] font-sans text-gray-900 font-[400] mb-2 ">
               Wanted Count
             </label>
-            <select
+            <input
               id="wantedCount"
               className="w-full border text-[#697586] border-neutral-300 rounded-md p-2"
               {...register("wanted_count")}
             >
-              <option value={""}>Select Count</option>
-              <option>1</option>
-              <option>2</option>
-            </select>
+            </input>
             <p className="text-red-500 text-sm mb-4">
               {errors.wanted_count?.message}
             </p>

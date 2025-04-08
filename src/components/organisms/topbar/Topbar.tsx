@@ -29,23 +29,20 @@ const TopBar = () => {
         token: userData.accessToken,
       });
 
-      console.log(res);
-      console.log(res.data)
+      //console.log(res);
+      //console.log(res.data)
       if (res.data.status_code === 6000) {
-        console.log(res.data.image_url);
         setUserProfile((prev) => ({
           ...prev,
           avatar: res.data.image_url,
-        }));    
-      console.log(res.data.image_url);
-      console.log("avatar" + userProfile.avatar)
+        }));
       } else {
         console.error("Failed to fetch image", res.data);
       }
     };
 
     fetchImage();
-  }, [userData, request]); // Add missing dependency
+  }, [userData]); // Add missing dependency
 
   const [userProfile, setUserProfile] = useState<User>({
     avatar: "/images/profile.png",
