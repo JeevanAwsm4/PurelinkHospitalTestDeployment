@@ -37,6 +37,7 @@ const TopBar = () => {
           ...prev,
           avatar: res.data.image_url,
         }));    
+      console.log(res.data.image_url);
       console.log("avatar" + userProfile.avatar)
       } else {
         console.error("Failed to fetch image", res.data);
