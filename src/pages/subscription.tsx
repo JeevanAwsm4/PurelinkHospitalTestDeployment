@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Button from "@/components/atomic/button/Button";
 import Image from "next/image";
 import { ISubscriptionResponse } from "@/interfaces/apiType";
 import useApi from "@/hooks/useApi";
