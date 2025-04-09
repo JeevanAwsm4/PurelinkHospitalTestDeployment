@@ -55,12 +55,12 @@ export default function Register() {
 
     console.log(response)
 
-    if (!response.data.status_code == 6000) {
+    if (!response.ok) {
       setError(response.data?.message || "Registration failed.");    
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: response.data.errors.message,
+        text: response.data.message,
     })
     } else {
       router.push("/signin");
