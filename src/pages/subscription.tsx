@@ -79,11 +79,6 @@ const Subscription = () => {
                   </li>
                 ))}
               </ul>
-              <div>
-                <Button disabled={data.is_active} onClick={() => {}}>
-                  {data.is_active ? "Active" : "Buy now"}
-                </Button>
-              </div>
             </article>
           ))}
         </div>
