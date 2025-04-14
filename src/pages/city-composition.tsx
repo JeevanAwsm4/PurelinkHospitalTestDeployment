@@ -6,7 +6,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import useApi from "@/hooks/useApi";
 import { useUser } from "@/context/UserContext";
-import { ICityComposition } from "@/interfaces/apiType";
+import { ICityComposition, IContacts } from "@/interfaces/apiType";
 import { API_ENDPOINTS } from "@/config/apiConfig";
 
 export default function CityComposition() {
@@ -20,32 +20,23 @@ export default function CityComposition() {
     "O+": 0,
     "O-": 0,
   });
-  const [name, setName] = useState("");
   const { request } = useApi();
-  const { userData, isLogged } = useUser();
+  const { userData,isLogged } = useUser();
 
   React.useEffect(() => {
-    if (!userData?.accessToken) return; // Ensure userData is loaded before making the API call
-  
     const fetchData = async () => {
-      try {
-        const response = await request({
-          API_ENDPOINT: API_ENDPOINTS.CITY_COMPOSITION,
-          method: "GET",
-          token: userData.accessToken,
-        });
-        if (response.ok) {
-          setData(response.data);
-          setName(response.data.name);
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
+      const response = await request({
+        API_ENDPOINT: API_ENDPOINTS.CITY_COMPOSITION,
+        method: "GET",
+        token: userData?.accessToken,
+      });
+      console.log(response);
+      if (response.ok) {
+        setData(response.data);
       }
     };
-  
     fetchData();
-  }, [request, userData?.accessToken]);
-
+  }, []);
   useEffect(() => {
     am4core.useTheme(am4themes_animated);
 
@@ -103,7 +94,7 @@ export default function CityComposition() {
         <div className="text-[0.875rem] font-normal leading-[1.43] tracking-normal text-gray-500 max-md:text-xs">
           Signed in as{" "}
           <span className="text-[0.875rem] font-normal leading-[1.43] tracking-normal text-[#7464F0] max-md:text-xs">
-            {name}
+            Medicity Kollam
           </span>
         </div>
       </div>
