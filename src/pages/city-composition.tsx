@@ -25,19 +25,35 @@ export default function CityComposition() {
   const { userData, isLogged } = useUser();
 
   React.useEffect(() => {
+    const controller = new AbortController(); // Create an AbortController instance
+    const signal = controller.signal;
+  
     const fetchData = async () => {
-      const response = await request({
-        API_ENDPOINT: API_ENDPOINTS.CITY_COMPOSITION,
-        method: "GET",
-        token: userData?.accessToken,
-      });
-      console.log(response);
-      if (response.ok) {
-        setData(response.data);
-        setName(response.data.name);
+      try {
+        const response = await request({
+          API_ENDPOINT: API_ENDPOINTS.CITY_COMPOSITION,
+          method: "GET",
+          token: userData?.accessToken,
+          signal, // Pass the signal to the request
+        });
+        if (response.ok) {
+          setData(response.data);
+          setName(response.data.name);
+        }
+      } catch (error) {
+        if (error.name === "AbortError") {
+          console.log("Fetch aborted");
+        } else {
+          console.error("Fetch error:", error);
+        }
       }
     };
+  
     fetchData();
+  
+    return () => {
+      controller.abort(); // Cancel the API request on cleanup
+    };
   }, [request, userData?.accessToken]);
 
   useEffect(() => {
