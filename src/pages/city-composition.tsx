@@ -6,7 +6,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import useApi from "@/hooks/useApi";
 import { useUser } from "@/context/UserContext";
-import { ICityComposition, IContacts } from "@/interfaces/apiType";
+import { ICityComposition } from "@/interfaces/apiType";
 import { API_ENDPOINTS } from "@/config/apiConfig";
 
 export default function CityComposition() {
@@ -90,12 +90,6 @@ export default function CityComposition() {
       <div className="flex flex-col gap-1">
         <div className="text-[1.25rem] font-medium leading-[1.5] tracking-normal max-md:text-base">
           City Composition
-        </div>
-        <div className="text-[0.875rem] font-normal leading-[1.43] tracking-normal text-gray-500 max-md:text-xs">
-          Signed in as{" "}
-          <span className="text-[0.875rem] font-normal leading-[1.43] tracking-normal text-[#7464F0] max-md:text-xs">
-            Medicity Kollam
-          </span>
         </div>
       </div>
       <div className="bg-white shadow-xl rounded-xl p-6 max-md:p-2">
