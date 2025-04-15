@@ -141,13 +141,13 @@ export default function ContactPage() {
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
                     No of requested donors <br />
                     <span className="text-gray-700 max-md:text-xs inline-block mt-1">
-                      {request.donors ?? 0}
+                      {request.wanted_count ?? 0}
                     </span>
                   </p>
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
                     No of accepted donors <br />
                     <span className="text-gray-700 max-md:text-xs">
-                      {request.wanted_count ?? 0}
+                      {request.donors ?? 0}
                     </span>
                   </p>
                 </div>
