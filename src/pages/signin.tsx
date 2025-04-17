@@ -152,7 +152,7 @@ export default function Login() {
       {/* Right Side */}
       <div className="hidden md:flex md:w-1/2 bg-purple-600 items-center justify-center relative overflow-hidden rounded-3xl min-h-[43.75rem]">
         <Image
-          src="/images/signin/image.png"
+          src="/images/signin/image38.svg"
           alt="Blood Donation"
           layout="fill"
           objectFit="cover"
