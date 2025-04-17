@@ -118,7 +118,7 @@ export default function ContactPage() {
 
           {/* Expired Requests */}
           <div className="mt-6 w-full h-full">
-            <h3 className="text-lg font-medium mb-1 max-md:text-sm">Expired Requests</h3>
+            <h3 className="text-lg font-medium mb-1 max-md:text-sm">Expired/Pending Requests</h3>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] gap-x-4 gap-y-4 mt-4 w-full h-full">
               {data.other_data.map((request, index) => (
                 <div key={index} className="flex items-center flex-wrap gap-4 justify-between p-3 rounded-lg bg-[#FFFBFA] border border-red-100 w-full">
