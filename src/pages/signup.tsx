@@ -201,7 +201,7 @@ export default function Register() {
 
               <Button
                 type="submit"
-                className="w-full bg-purple-600 text-white p-3 rounded-md font-semibold hover:bg-purple-700 transition duration-300"
+                className="w-full bg-purple-600 text-white p-3 rounded-md font-semibold hover:bg-purple-700 transition duration-300 mb-1"
                 isLoading={isFetching}
               >
                 Sign up
