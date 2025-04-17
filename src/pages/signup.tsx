@@ -214,7 +214,7 @@ export default function Register() {
       {/* Right Side */}
       <div className="hidden md:flex md:w-1/2 bg-purple-600 items-center justify-center relative overflow-hidden rounded-3xl min-h-[53rem]">
         <Image
-          src="/images/signin/image.png"
+          src="/images/signup/image.png"
           alt="Blood Donation"
           layout="fill"
           objectFit="cover"
