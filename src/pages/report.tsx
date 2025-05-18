@@ -84,7 +84,7 @@ export default function RestrictionsPage() {
         >
           <div className="flex justify-between max-md:flex-col">
             <div className="text-[0.875rem] font-medium leading-[1.43] tracking-normal max-sm:text-xs">
-              Date : {new Date(report.datetime).toLocaleDateString()}
+              Date : {report.datetime ? new Date(report.datetime).toISOString().slice(0, 10) : "N/A"}
             </div>
             <div className="text-[0.875rem] font-medium leading-[1.43] tracking-normal text-gray-800 max-sm:text-xs">
               Request id : {report.uuid}

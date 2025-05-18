@@ -129,7 +129,7 @@ export default function ContactPage() {
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
                     Requested Date <br />
                     <span className="text-gray-700 inline-block mt-1">
-                      {request.datetime ? new Date(request.datetime).toLocaleDateString() : "N/A"}
+                      {request.datetime ? new Date(request.datetime).toISOString().slice(0, 16).replace('T', ' ') : "N/A"}
                     </span>
                   </p>
                   <p className="text-sm text-gray-500 font-medium leading-loose max-md:text-xs">
